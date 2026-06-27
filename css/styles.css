@@ -196,8 +196,7 @@ input, textarea { font-family: var(--sans); }
    SECCIÓN 1 — HERO INMERSIVO
    ================================================ */
 .section-hero {
-  height: 100vh;
-  min-height: 700px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,7 +242,7 @@ input, textarea { font-family: var(--sans); }
 }
 .hero-title {
   font-family: var(--serif);
-  font-size: clamp(3.2rem, 8vw, 8.5rem);
+  font-size: clamp(3.2rem, 5.5vw, 6rem);
   font-weight: 900;
   line-height: 1.0;
   letter-spacing: -0.03em;
@@ -258,6 +257,15 @@ input, textarea { font-family: var(--sans); }
 .hero-line--accent {
   color: var(--accent-magenta);
   font-style: italic;
+}
+.manifiesto-title-quote {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
 }
 .hero-sub {
   font-size: clamp(1rem, 1.8vw, 1.2rem);
@@ -308,9 +316,97 @@ input, textarea { font-family: var(--sans); }
    SECCIÓN 2 — MANIFIESTO
    ================================================ */
 .section-manifiesto {
-  padding: var(--space-2xl) 0;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0;
   background: var(--bg-deep);
   position: relative;
+  /* Scroll-driven animation properties */
+  --range: contain 30% exit 30%;
+  view-timeline: --_text-gradient-scrub;
+}
+
+/* --- ANIMATIONS FROM REFERENCE --- */
+.text-gradient-fill {
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(90deg, var(--text-primary) 90%, transparent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: rgba(240, 235, 224, 0.15); /* Fallback semi-transparent color */
+  animation: text-gradient-color-fill linear both;
+  animation-timeline: --_text-gradient-scrub;
+  animation-range: var(--range);
+}
+
+@keyframes text-gradient-color-fill {
+  from { background-size: 0% 100%; }
+  to { background-size: 110% 100%; }
+}
+
+.statement_text-highlight-wrap {
+  --underline-height: 0.05em;
+  display: inline;
+  background-image: linear-gradient(120deg, currentColor 0%, currentColor 100%);
+  background-repeat: no-repeat;
+  background-size: 0% var(--underline-height);
+  background-position: left bottom;
+  transition: background-size 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  position: relative;
+}
+.statement_text-highlight-wrap:is(:hover, :focus) {
+  background-size: 100% var(--underline-height);
+}
+
+.statement_highlight-images-list {
+  --angle: 150deg;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  z-index: 10;
+}
+.statement_highlight-image-wrap {
+  --i: 1;
+  --radius: clamp(6rem, 20vw, 17.5rem);
+  --final-angle: calc((360deg / var(--total-images)) * (var(--i) - 1) - var(--angle));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  scale: 0;
+  rotate: 15deg;
+  transition: all 0.5s cubic-bezier(.785, .135, .15, .86);
+}
+.statement_highlight-image-wrap:nth-child(1) { --i: 1; }
+.statement_highlight-image-wrap:nth-child(2) { --i: 2; }
+.statement_highlight-image-wrap:nth-child(3) { --i: 3; }
+
+.statement_highlight-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.statement_text-highlight-wrap:is(:hover, :focus) .statement_highlight-image-wrap {
+  left: calc(cos(var(--final-angle)) * var(--radius));
+  top: calc(sin(var(--final-angle)) * var(--radius));
+  scale: 1;
+  rotate: 0deg;
+}
+
+.statement_text-wrap:has(.statement_text-highlight-wrap:is(:hover, :focus)) > span:not(:hover) {
+  opacity: 0.5;
+  transition: opacity 0.5s ease;
+}
+.statement_text-wrap > span {
+  transition: opacity 0.5s ease;
 }
 .manifiesto-grid {
   display: grid;
@@ -357,6 +453,7 @@ input, textarea { font-family: var(--sans); }
   pointer-events: none;
   user-select: none;
   line-height: 1;
+  white-space: nowrap;
 }
 
 

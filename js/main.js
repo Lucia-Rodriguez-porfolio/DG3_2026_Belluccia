@@ -10,16 +10,16 @@
   gsap.registerPlugin(ScrollTrigger);
 
   // ---- Referencias DOM ----
-  const cursor    = document.getElementById("cursor");
+  const cursor = document.getElementById("cursor");
   const cursorDot = document.getElementById("cursorDot");
-  const nav       = document.getElementById("nav");
+  const nav = document.getElementById("nav");
 
   /* ============================================
      1. CURSOR PERSONALIZADO
      ============================================ */
   if (cursor && cursorDot && window.matchMedia("(pointer: fine)").matches) {
     let mouseX = 0, mouseY = 0;
-    let curX   = 0, curY   = 0;
+    let curX = 0, curY = 0;
 
     document.addEventListener("mousemove", (e) => {
       mouseX = e.clientX;
@@ -42,18 +42,18 @@
 
     // Cambio de color del cursor por sección
     const sectionColors = {
-      hero:        "#00FFCC",
-      manifiesto:  "#00FFCC",
-      proceso:     "#00FFCC",
-      transicion:  "#C8FF00",
-      restauracion:"#00FFCC",
-      anatomia:    "#FF00AA",
-      capsula:     "#FF00AA",
-      galeria:     "#C8FF00",
-      verde:       "#C8FF00",
-      bento:       "#00FFCC",
+      hero: "#00FFCC",
+      manifiesto: "#00FFCC",
+      proceso: "#00FFCC",
+      transicion: "#C8FF00",
+      restauracion: "#00FFCC",
+      anatomia: "#FF00AA",
+      capsula: "#FF00AA",
+      galeria: "#C8FF00",
+      verde: "#C8FF00",
+      bento: "#00FFCC",
       testimonios: "#00FFCC",
-      contacto:    "#FF00AA",
+      contacto: "#FF00AA",
     };
 
     Object.entries(sectionColors).forEach(([id, color]) => {
@@ -63,8 +63,8 @@
         trigger: el,
         start: "top center",
         end: "bottom center",
-        onEnter:      () => setAccent(color),
-        onEnterBack:  () => setAccent(color),
+        onEnter: () => setAccent(color),
+        onEnterBack: () => setAccent(color),
       });
     });
 
@@ -79,8 +79,8 @@
      ============================================ */
   ScrollTrigger.create({
     start: "top -80px",
-    onEnter:    () => nav && nav.classList.add("nav--scrolled"),
-    onLeaveBack:() => nav && nav.classList.remove("nav--scrolled"),
+    onEnter: () => nav && nav.classList.add("nav--scrolled"),
+    onLeaveBack: () => nav && nav.classList.remove("nav--scrolled"),
   });
 
   // Burger menu (mobile)
@@ -158,40 +158,59 @@
 
   // Inicializar estados ocultos del hero
   gsap.set("#heroEyebrow", { opacity: 0, y: 20 });
-  gsap.set(".hero-line",   { opacity: 0, y: 60 });
-  gsap.set("#heroSub",     { opacity: 0, y: 20 });
-  gsap.set(".hero-ctas",   { opacity: 0, y: 20 });
+  gsap.set(".hero-line", { opacity: 0, y: 60 });
+  gsap.set("#heroSub", { opacity: 0, y: 20 });
+  gsap.set(".hero-ctas", { opacity: 0, y: 20 });
   gsap.set(".hero-scroll-hint", { opacity: 0 });
 
 
   /* ============================================
      4. MANIFIESTO — reveal con scroll
      ============================================ */
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: ".section-manifiesto",
-      start: "top 75%",
-    },
-  })
-    .from(".manifiesto-grid .section-title", {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: "power3.out",
-    })
-    .to(
-      "#manifestoBody",
-      { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
-      "-=0.5"
-    )
-    .to(
-      "#manifestoQuote",
-      { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" },
-      "-=0.4"
-    );
+  const textRevealEl = document.querySelector('.js-text-reveal');
+  if (textRevealEl) {
+    const text = textRevealEl.textContent.trim();
+    const words = text.split(/\s+/);
+    textRevealEl.innerHTML = '';
+    textRevealEl.setAttribute('aria-label', text);
 
-  gsap.set("#manifestoBody",  { y: 30 });
-  gsap.set("#manifestoQuote", { y: 30 });
+    words.forEach(word => {
+      const outerDiv = document.createElement('div');
+      outerDiv.className = 'overflow-hidden';
+      outerDiv.setAttribute('aria-hidden', 'true');
+      outerDiv.style.position = 'relative';
+      outerDiv.style.display = 'inline-block';
+      outerDiv.style.marginRight = '0.25em';
+      outerDiv.style.opacity = '0.2';
+      outerDiv.textContent = word;
+      textRevealEl.appendChild(outerDiv);
+    });
+
+    gsap.to(textRevealEl.querySelectorAll('.overflow-hidden'), {
+      scrollTrigger: {
+        trigger: ".section-manifiesto",
+        start: "top 60%",
+        end: "bottom 70%",
+        scrub: 1,
+      },
+      opacity: 1,
+      stagger: 0.1,
+      ease: "none",
+    });
+  }
+
+  if (document.querySelector('.manifiesto-deco')) {
+    gsap.to(".manifiesto-deco", {
+      scrollTrigger: {
+        trigger: ".section-manifiesto",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+      x: "-30vw", // Movimiento suave de derecha a izquierda
+      ease: "none",
+    });
+  }
 
 
   /* ============================================
@@ -259,12 +278,12 @@
      7. SLIDER BEFORE / AFTER
      ============================================ */
   const sliderContainer = document.getElementById("beforeAfterSlider");
-  const sliderAfter     = document.getElementById("sliderAfter");
-  const sliderHandle    = document.getElementById("sliderHandle");
+  const sliderAfter = document.getElementById("sliderAfter");
+  const sliderHandle = document.getElementById("sliderHandle");
 
   if (sliderContainer && sliderAfter && sliderHandle) {
-    let isDragging    = false;
-    let isVertical    = window.innerWidth <= 767;
+    let isDragging = false;
+    let isVertical = window.innerWidth <= 767;
     let sliderPercent = 50;
 
     function updateSlider(percent) {
@@ -359,30 +378,30 @@
     target.setDate(target.getDate() + 47); // 47 días al lanzamiento
     target.setHours(0, 0, 0, 0);
 
-    const elDays  = document.getElementById("cdDays");
+    const elDays = document.getElementById("cdDays");
     const elHours = document.getElementById("cdHours");
-    const elMins  = document.getElementById("cdMins");
+    const elMins = document.getElementById("cdMins");
 
     if (!elDays) return;
 
     function update() {
-      const now  = new Date();
+      const now = new Date();
       const diff = target - now;
 
       if (diff <= 0) {
-        elDays.textContent  = "00";
+        elDays.textContent = "00";
         elHours.textContent = "00";
-        elMins.textContent  = "00";
+        elMins.textContent = "00";
         return;
       }
 
-      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-      elDays.textContent  = String(days).padStart(2, "0");
+      elDays.textContent = String(days).padStart(2, "0");
       elHours.textContent = String(hours).padStart(2, "0");
-      elMins.textContent  = String(mins).padStart(2, "0");
+      elMins.textContent = String(mins).padStart(2, "0");
     }
 
     update();
@@ -506,9 +525,9 @@
   /* ============================================
      13. TESTIMONIOS — CARRUSEL
      ============================================ */
-  const track  = document.getElementById("testTrack");
-  const dots   = document.querySelectorAll(".test-dot");
-  const cards  = document.querySelectorAll(".test-card");
+  const track = document.getElementById("testTrack");
+  const dots = document.querySelectorAll(".test-dot");
+  const cards = document.querySelectorAll(".test-card");
   const prevBtn = document.getElementById("testPrev");
   const nextBtn = document.getElementById("testNext");
 
@@ -533,8 +552,8 @@
     cards.forEach((c) => { c.style.flex = `0 0 ${100 / cards.length}%`; });
     cards[0].classList.add("active");
 
-    prevBtn  && prevBtn.addEventListener("click",  () => goTo(current - 1));
-    nextBtn  && nextBtn.addEventListener("click",  () => goTo(current + 1));
+    prevBtn && prevBtn.addEventListener("click", () => goTo(current - 1));
+    nextBtn && nextBtn.addEventListener("click", () => goTo(current + 1));
     dots.forEach((d) => d.addEventListener("click", () => goTo(parseInt(d.dataset.idx, 10))));
 
     // Auto-avance
