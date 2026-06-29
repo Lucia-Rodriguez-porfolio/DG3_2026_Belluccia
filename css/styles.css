@@ -27,8 +27,9 @@
   --space-sm: 1rem;
   --space-md: 2rem;
   --space-lg: 4rem;
-  --space-xl: 7rem;
-  --space-2xl: 12rem;
+  --space-xl: 6rem;
+  --space-2xl: 8rem;
+  --space-3xl: 10rem;
 
   --radius-sm: 4px;
   --radius-md: 12px;
@@ -569,7 +570,7 @@ textarea {
    SECCIÓN 3 — EL TALLER / PROCESO
    ================================================ */
 .section-proceso {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-3xl) 0;
   background: var(--bg-mid);
 }
 
@@ -665,7 +666,7 @@ textarea {
    SECCIÓN 4 — TRANSICIÓN DE CONTRASTE
    ================================================ */
 .section-transicion {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-xl) 0;
   background: var(--bg-deep);
   display: flex;
   align-items: center;
@@ -699,7 +700,7 @@ textarea {
    SECCIÓN 5 — RESTAURACIÓN INTEGRAL
    ================================================ */
 .section-restauracion {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-3xl) 0;
   background: var(--bg-mid);
 }
 
@@ -944,7 +945,7 @@ textarea {
    SECCIÓN 7 — CÁPSULA TEASER
    ================================================ */
 .section-capsula-teaser {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-3xl) 0;
   background: var(--bg-deep);
   position: relative;
   overflow: hidden;
@@ -1083,7 +1084,7 @@ textarea {
    SECCIÓN 8 — GALERÍA PARALAJE
    ================================================ */
 .section-galeria {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-xl) 0;
   background: var(--bg-mid);
   overflow: hidden;
 }
@@ -1418,7 +1419,7 @@ textarea {
    SECCIÓN 11 — TESTIMONIOS
    ================================================ */
 .section-testimonios {
-  padding: var(--space-2xl) 0;
+  padding: var(--space-xl) 0;
   background: var(--bg-surface);
 }
 
@@ -1428,18 +1429,21 @@ textarea {
 
 .test-carousel {
   position: relative;
+  max-width: 850px;
+  margin: 0 auto;
 }
 
 .test-track {
   display: flex;
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
-  gap: var(--space-md);
+  /* Removed gap to not break JS calculation */
 }
 
 .test-card {
   flex: 0 0 100%;
-  max-width: 700px;
+  max-width: min(700px, calc(100% - 2rem));
+  margin: 0 auto;
   padding: var(--space-xl) var(--space-lg);
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -1537,7 +1541,7 @@ textarea {
 .section-footer {
   position: relative;
   background: var(--bg-deep);
-  padding: var(--space-2xl) 0 0;
+  padding: var(--space-3xl) 0 0;
 }
 
 .footer-gradient {
@@ -2162,4 +2166,32 @@ textarea {
   width: 100%;
   height: 100%;
   transform-origin: left top;
+}
+
+/* ================================================
+   NAV LOGO
+   ================================================ */
+.nav-logo-img {
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-logo-img {
+    width: 42px;
+    height: 42px;
+    max-width: none;
+  }
+}
+
+/* ================================================
+   NAV HEIGHT OVERRIDE
+   ================================================ */
+.nav {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  min-height: auto !important;
 }

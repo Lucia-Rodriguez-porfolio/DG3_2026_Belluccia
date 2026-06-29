@@ -22,7 +22,9 @@
 
   <!-- NAV -->
   <nav class="nav" id="nav">
-    <a href="#" class="nav-logo">MADERA<span class="accent">VIVA</span></a>
+    <a href="#" class="nav-logo">
+      <img src="assets/logo_blanco.png" alt="MADERA VIVA" width="200" height="40" class="nav-logo-img">
+    </a>
     <ul class="nav-links">
       <li><a href="#proceso">Proceso</a></li>
       <li><a href="#restauracion">Restauración</a></li>
@@ -329,7 +331,7 @@
           <div class="spacer-0d75" style="height: 0.75rem;"></div>
           <div class="line-divider" style="height: 1px; background-color: var(--text-secondary); opacity: 0.3;"></div>
           <div class="spacer-1" style="height: 1rem;"></div>
-          <span class="verde-label">Aplica los conocimientos en proyectos profesionales</span>
+          <span class="verde-label">Aplica los conocimientos en proyectos propios y profesionales.</span>
         </div>
         <div class="verde-stat"
           style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
@@ -360,13 +362,72 @@
 -->
 
   <!-- SECCIÓN 5: SERVICIO DE RESTAURACIÓN INTEGRAL -->
-  <section class="section section-restauracion" id="restauracion">
-    <div class="container">
+  <section class="section section-restauracion" id="restauracion" style="background: transparent;">
+
+    <!-- SLIDER BACKGROUND -->
+    <div class="restauracion-bg-wrapper swiper bg-swiper"
+      style="position: absolute; top: -10%; left: 0; width: 100%; height: 120%; z-index: 0; pointer-events: none;">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <!-- TODO: Reemplazar con la imagen 1 real -->
+          <img src="assets/hero1.png" class="restauracion-bg-img" alt="Fondo Restauración 1"
+            style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <div class="swiper-slide">
+          <!-- TODO: Reemplazar con la imagen 2 real -->
+          <img src="assets/bg-restauracion-2.jpg" class="restauracion-bg-img" alt="Fondo Restauración 2"
+            style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <div class="swiper-slide">
+          <!-- TODO: Reemplazar con la imagen 3 real -->
+          <img src="assets/bg-restauracion-3.jpg" class="restauracion-bg-img" alt="Fondo Restauración 3"
+            style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+      </div>
+    </div>
+
+    <div class="restauracion-overlay"
+      style="position: absolute; inset: 0; background: rgba(8, 8, 16, 0.7); z-index: 1; pointer-events: none;"></div>
+
+    <div class="container" style="position: relative; z-index: 2;">
       <div class="restauracion-header">
         <span class="section-label">05 — Servicio Estrella</span>
-        <h2 class="section-title">Restauración<br /><em>Integral</em></h2>
-        <p class="restauracion-intro">El proceso completo: desde el mueble que falla hasta la pieza que sorprende. Sin
-          atajos estructurales, sin clichés visuales.</p>
+        <h2 class="section-title">Lo que nace en el taller<br /></h2>
+        <p class="restauracion-intro" style="color: #fff;">Cada pieza cuenta una historia distinta. Estos trabajos
+          fueron restaurados por nuestros alumnos, aplicando las técnicas y el criterio aprendidos en cada curso.</p>
+        <div style="margin-top: 2rem;">
+          <a href="#capsula" class="btn btn-ghost">Explorar trabajos</a>
+        </div>
+      </div>
+
+      <!-- CONTROLES CUSTOM (DEBAJO DEL TEXTO, CON BASTANTE MARGEN SUPERIOR) -->
+      <div style="margin-top: 16rem; padding-bottom: 2rem;">
+        <div class="styles_carousel-actions__pmCli" style="display: flex; align-items: center; gap: 1rem;">
+          <button id="bg-prev"
+            class="styles_carousel-arrow-button__1CEQT styles_carousel-arrow-button--size-small__ISIKG styles_carousel-arrow-button--theme-dark__KZRwA"
+            style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(32,231,183,0.3); display: flex; align-items: center; justify-content: center; background: rgba(8,8,16,0.6); cursor: pointer; transition: 0.3s;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 16" width="9" height="16"
+              class="styles_icon__V30uV">
+              <path stroke="#20E7B7" stroke-width="1.5" stroke-linecap="round" d="M8 1 1.169 7.831 8 14.663"></path>
+            </svg>
+          </button>
+
+          <div class="styles_embla__progress__e6Jwl"
+            style="width: 120px; height: 2px; background: rgba(255,255,255,0.2); position: relative; overflow: hidden; border-radius: 2px;">
+            <div id="bg-progress" class="styles_embla__progress__bar__QRdqC"
+              style="position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #20E7B7; transform: translate3d(-100%, 0px, 0px); transition: transform 0.3s ease;">
+            </div>
+          </div>
+
+          <button id="bg-next"
+            class="styles_carousel-arrow-button__1CEQT styles_carousel-arrow-button--size-small__ISIKG styles_carousel-arrow-button--theme-dark__KZRwA"
+            style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(32,231,183,0.3); display: flex; align-items: center; justify-content: center; background: rgba(8,8,16,0.6); cursor: pointer; transition: 0.3s;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 9 16" width="9" height="16"
+              class="styles_icon__V30uV">
+              <path stroke="#20E7B7" stroke-width="1.5" stroke-linecap="round" d="m1 1 6.831 6.831L1 14.663"></path>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- SLIDER BEFORE / AFTER -->
@@ -409,7 +470,68 @@
     -->
   </section>
 
+
+
+  <!-- SECCIÓN 6: BENTO GRID — MUEBLES CÁPSULA -->
+  <section class="section section-bento" id="bento">
+    <div class="container">
+      <div class="bento-header">
+        <span class="section-label">Raíz Presenta</span>
+        <h2 class="section-title">Muebles Cápsula<br /></h2>
+      </div>
+      <div class="bento-grid" id="bentoGrid">
+        <div class="bento-cell bento-cell--hero">
+          <img src="assets/img8.png" alt="Pieza Cápsula 01 — Cómoda reconstruida con retazos de roble y nogal"
+            loading="lazy" />
+          <div class="bento-overlay">
+            <span class="bento-tag">Edición Limitada</span>
+            <h3>Pieza 01 — Roble & Nogal</h3>
+            <span class="bento-price">Consultar precio</span>
+          </div>
+        </div>
+        <div class="bento-cell bento-cell--video">
+          <img src="assets/img9.png" alt="Vista del taller de ebanistería durante el proceso de ensamblaje"
+            loading="lazy" />
+          <div class="bento-overlay">
+            <span class="bento-tag">Proceso</span>
+            <h3>En el taller</h3>
+          </div>
+        </div>
+        <div class="bento-cell bento-cell--stat">
+          <div class="bento-stat-inner">
+            <span class="bento-big-num">12</span>
+            <span class="bento-stat-desc">piezas<br />únicas<br />disponibles</span>
+          </div>
+        </div>
+        <div class="bento-cell bento-cell--img2">
+          <img src="assets/img10.png"
+            alt="Detalle de ensamblaje en pieza cápsula — madera recuperada de diferentes épocas" loading="lazy" />
+          <div class="bento-overlay">
+            <span class="bento-tag">Detalle</span>
+            <h3>Pieza 02 — Patchwork</h3>
+          </div>
+        </div>
+        <div class="bento-cell bento-cell--quote">
+          <blockquote>"Ensamblamos la historia<br />de otros muebles<br />en uno solo."</blockquote>
+        </div>
+        <div class="bento-cell bento-cell--img3">
+          <img src="assets/img11.png" alt="Sillón restaurado con intervención contemporánea en color neón"
+            loading="lazy" />
+          <div class="bento-overlay">
+            <span class="bento-tag">Agotado</span>
+            <h3>Pieza 03 — Magenta</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
   <!-- SECCIÓN 6: ANATOMÍA DE UNA RESTAURACIÓN -->
+
+  <!--
   <section class="section section-anatomia" id="anatomia">
     <div class="container">
       <div class="anatomia-header">
@@ -449,9 +571,15 @@
         </div>
       </div>
     </div>
+
   </section>
+   -->
+
+
 
   <!-- SECCIÓN 7: MUEBLES CÁPSULA — TEASER -->
+
+  <!--
   <section class="section section-capsula-teaser" id="capsula">
     <div class="container">
       <div class="teaser-content">
@@ -480,7 +608,10 @@
     <div class="teaser-bg-text" aria-hidden="true">CÁPSULA</div>
   </section>
 
+
   <!-- SECCIÓN 8: GALERÍA DE RETAZOS -->
+
+  <!--
   <section class="section section-galeria" id="galeria">
     <div class="container">
       <div class="galeria-header">
@@ -506,8 +637,11 @@
       </div>
     </div>
   </section>
+  -->
 
   <!-- SECCIÓN 9: data piola -->
+
+  <!--
   <section class="section section-verde" id="verde">
     <div class="container">
       <div class="verde-header">
@@ -534,8 +668,12 @@
     </div>
     <div class="verde-barra" aria-hidden="true"></div>
   </section>
+  -->
+
 
   <!-- SECCIÓN 10: BENTO GRID — MUEBLES CÁPSULA -->
+
+  <!--
   <section class="section section-bento" id="bento">
     <div class="container">
       <div class="bento-header">
@@ -587,7 +725,8 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> 
+-->
 
   <!-- SECCIÓN 11: TESTIMONIOS -->
   <section class="section section-testimonios" id="testimonios">
@@ -679,12 +818,15 @@
       </div>
 
       <div class="footer-bottom">
+
+        <!--
         <span class="footer-logo-big" aria-hidden="true">MADERA<span>VIVA</span></span>
         <div class="footer-meta">
           <a href="#">Política de privacidad</a>
           <span>&copy; 2025 Madera Viva. Todos los derechos reservados.</span>
-        </div>
+        -->
       </div>
+    </div>
     </div>
   </section>
 

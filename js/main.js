@@ -545,7 +545,7 @@
       dots.forEach((d, i) => d.classList.toggle("active", i === current));
 
       gsap.to(track, {
-        x: `-${current * 100}%`,
+        x: `-${current * (100 / cards.length)}%`,
         duration: 0.7,
         ease: "power3.inOut",
       });
@@ -658,7 +658,7 @@
 
 
   /* ============================================
-     16. PARALLAX SUAVE — Hero
+     16. PARALLAX SUAVE — Hero & Restauración
      ============================================ */
   gsap.to(".hero-bg-video", {
     scrollTrigger: {
@@ -668,6 +668,17 @@
       scrub: true,
     },
     y: "30%",
+    ease: "none",
+  });
+
+  gsap.to(".restauracion-bg-img", {
+    scrollTrigger: {
+      trigger: ".section-restauracion",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true,
+    },
+    y: "20%",
     ease: "none",
   });
 
@@ -739,4 +750,44 @@
     });
   });
 
+  /* ============================================
+     20. BG SWIPER (RESTAURACIÓN)
+     ============================================ */
+  if (document.querySelector(".bg-swiper")) {
+    const bgSwiper = new Swiper(".bg-swiper", {
+      effect: "fade",
+      fadeEffect: {
+        crossFade: true
+      },
+      speed: 800,
+      loop: true,
+      navigation: {
+        nextEl: "#bg-next",
+        prevEl: "#bg-prev",
+      },
+      on: {
+        init: function () {
+          updateProgress(this);
+        },
+        slideChange: function () {
+          updateProgress(this);
+        }
+      }
+    });
+
+    function updateProgress(swiper) {
+      const progressBar = document.getElementById("bg-progress");
+      if (progressBar) {
+        // Calculate progress percentage based on current slide
+        const totalSlides = swiper.slides.length;
+        const currentSlide = swiper.realIndex + 1;
+        
+        // Progress goes from -100% to 0% (translating)
+        const percent = ((currentSlide / totalSlides) * 100) - 100;
+        progressBar.style.transform = `translate3d(${percent}%, 0px, 0px)`;
+      }
+    }
+  }
+
 })();
+
