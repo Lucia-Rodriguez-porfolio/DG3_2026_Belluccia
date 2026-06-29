@@ -480,23 +480,27 @@
     );
   }
 
+  // 1. Animar los contadores de números
   document.querySelectorAll(".verde-num, .stat-num").forEach((el) => {
-    // Animar opacidad de la tarjeta verde
-    if (el.closest(".verde-stat")) {
-      gsap.to(el.closest(".verde-stat"), {
-        scrollTrigger: {
-          trigger: ".section-verde",
-          start: "top 70%",
-        },
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: "power3.out",
-      });
-    }
     animateCounter(el);
   });
+
+  // 2. Animar opacidad y posición de las tarjetas verde-stat (animación general de la página)
+  const verdeStats = document.querySelectorAll(".verde-stat");
+  if (verdeStats.length) {
+    gsap.from(verdeStats, {
+      scrollTrigger: {
+        trigger: ".section-verde",
+        start: "top 75%",
+        toggleActions: "play none none reverse",
+      },
+      opacity: 0,
+      y: 60,
+      duration: 1.2,
+      stagger: 0.25,
+      ease: "power4.out",
+    });
+  }
 
 
   /* ============================================
@@ -685,6 +689,53 @@
           navLinks.style.display = "none";
         }
       }
+    });
+  });
+
+  /* ============================================
+     18. SWIPER CARDS (ANATOMÍA)
+     ============================================ */
+  if (document.querySelector(".anatomia-swiper")) {
+    new Swiper(".anatomia-swiper", {
+      effect: "cards",
+      grabCursor: true,
+      initialSlide: 1,
+      cardsEffect: {
+        rotate: true,
+        perSlideRotate: 4,
+        perSlideOffset: 22,
+        slideShadows: false,
+      },
+      loop: true,
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".nav-next",
+        prevEl: ".nav-prev",
+      },
+      pagination: {
+        el: ".slider_pagination",
+        type: "progressbar",
+      },
+    });
+  }
+
+  /* ============================================
+     19. CARD GLOW EFFECT
+     ============================================ */
+  const newsCards = document.querySelectorAll(".news_card_component");
+  newsCards.forEach(card => {
+    const glow = card.querySelector(".card-glow");
+    if (!glow) return;
+
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+      glow.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(32, 231, 183, 0.4) 0%, rgba(32, 231, 183, 0.12) 50%, transparent 70%)`;
     });
   });
 
