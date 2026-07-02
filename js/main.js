@@ -83,6 +83,24 @@
     onLeaveBack: () => nav && nav.classList.remove("nav--scrolled"),
   });
 
+  // Auto-hide navbar al hacer scroll hacia abajo
+  let lastScroll = 0;
+  window.addEventListener("scroll", () => {
+    if (!nav) return;
+    const currentScroll = window.scrollY || document.documentElement.scrollTop;
+    if (currentScroll <= 80) {
+      nav.classList.remove("nav--hidden");
+      lastScroll = currentScroll;
+      return;
+    }
+    if (currentScroll > lastScroll && !nav.classList.contains("nav--hidden")) {
+      nav.classList.add("nav--hidden"); // Scroll down
+    } else if (currentScroll < lastScroll && nav.classList.contains("nav--hidden")) {
+      nav.classList.remove("nav--hidden"); // Scroll up
+    }
+    lastScroll = currentScroll;
+  });
+
   // Burger menu (mobile)
   const burger = document.getElementById("navBurger");
   const navLinks = document.querySelector(".nav-links");
@@ -708,16 +726,21 @@
      ============================================ */
   if (document.querySelector(".anatomia-swiper")) {
     new Swiper(".anatomia-swiper", {
-      effect: "cards",
+      effect: "coverflow",
       grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: "auto",
       initialSlide: 1,
-      cardsEffect: {
-        rotate: true,
-        perSlideRotate: 4,
-        perSlideOffset: 22,
+      coverflowEffect: {
+        rotate: 0,
+        stretch: 50,
+        depth: 200,
+        modifier: 1,
         slideShadows: false,
+        scale: 0.85,
       },
       loop: true,
+      loopedSlides: 3,
       autoplay: {
         delay: 3000,
         disableOnInteraction: false,
@@ -781,7 +804,7 @@
         // Calculate progress percentage based on current slide
         const totalSlides = swiper.slides.length;
         const currentSlide = swiper.realIndex + 1;
-        
+
         // Progress goes from -100% to 0% (translating)
         const percent = ((currentSlide / totalSlides) * 100) - 100;
         progressBar.style.transform = `translate3d(${percent}%, 0px, 0px)`;

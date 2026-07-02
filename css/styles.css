@@ -6,14 +6,14 @@
 
 /* ---- Variables globales ---- */
 :root {
-  --bg-deep: #080810;
-  --bg-mid: #0F0F1A;
-  --bg-surface: #16162A;
-  --bg-card: #1C1C30;
+  --bg-deep: #C5A996;
+  --bg-mid: #E8E0CD;
+  --bg-surface: #DFD5BD;
+  --bg-card: #D5CAAE;
 
-  --text-primary: #F0EBE0;
-  --text-secondary: #A89F92;
-  --text-muted: #5C5550;
+  --text-primary: #080810;
+  --text-secondary: #5C5550;
+  --text-muted: #A89F92;
 
   --accent-cyan: #00FFCC;
   --accent-magenta: #FF00AA;
@@ -58,6 +58,7 @@ body {
   color: var(--text-primary);
   overflow-x: hidden;
   cursor: none;
+  zoom: 0.8;
 }
 
 @media (pointer: coarse) {
@@ -186,61 +187,60 @@ textarea {
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.85rem 2rem;
+  color: #090909;
+  padding: 0.7em 1.7em;
+  font-size: 18px;
+  border-radius: 999vw;
+  background: #ffffff;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  transition: all 0.3s;
   font-family: var(--sans);
-  font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border-radius: 2px;
-  transition: var(--transition);
-  position: relative;
+  text-decoration: none;
   overflow: hidden;
 }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent-current);
-  transform: translateX(-101%);
-  transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
-  z-index: 0;
-}
-
-.btn:hover::before {
-  transform: translateX(0);
-}
-
-.btn>* {
-  position: relative;
-  z-index: 1;
-}
-
-.btn span {
-  position: relative;
-  z-index: 1;
-}
-
-.btn-primary {
-  background: var(--accent-cyan);
-  color: var(--bg-deep);
-}
-
-.btn-primary:hover {
-  color: var(--bg-deep);
+.btn:hover {
+  background: #f0f0f0;
 }
 
 .btn-ghost {
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid rgba(240, 235, 224, 0.25);
+  background: transparent !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
 }
 
 .btn-ghost:hover {
-  color: var(--bg-deep);
-  border-color: var(--accent-current);
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.btn-char-wrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.btn-char {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-char-clone {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.btn:hover .btn-char {
+  transform: translateY(-100%);
 }
 
 .btn-large {
@@ -258,27 +258,29 @@ textarea {
    SECCIÓN 1 — HERO INMERSIVO
    ================================================ */
 .section-hero {
-  min-height: 100vh;
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  aspect-ratio: 1920 / 1080;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-deep);
+  background: transparent;
+  overflow: hidden;
 }
 
 .hero-bg-video {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 30% 50%, rgba(0, 255, 204, 0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(255, 0, 170, 0.04) 0%, transparent 70%),
-    linear-gradient(135deg, #05050F 0%, #0A0A18 50%, #080810 100%);
+  background: transparent;
   z-index: 0;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 8, 16, 0.55);
+  background: transparent;
 }
 
 .hero-grain {
@@ -322,6 +324,7 @@ textarea {
   display: block;
   opacity: 0;
   transform: translateY(60px);
+  color: #ffffff;
 }
 
 .hero-line--accent {
@@ -341,7 +344,7 @@ textarea {
 
 .hero-sub {
   font-size: clamp(1rem, 1.8vw, 1.2rem);
-  color: var(--text-secondary);
+  color: #ffffff;
   line-height: 1.6;
   max-width: 540px;
   margin: 0 auto var(--space-lg);
@@ -524,10 +527,10 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  font-size: 0.7rem;
+  font-size: 16px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #ffffff;
   padding-top: 0.6rem;
 }
 
@@ -541,12 +544,10 @@ textarea {
 
 .manifiesto-quote {
   font-family: var(--serif);
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
   font-style: italic;
   line-height: 1.3;
   color: var(--text-primary);
-  border-left: 3px solid var(--accent-cyan);
-  padding-left: var(--space-md);
   opacity: 0;
 }
 
@@ -571,12 +572,16 @@ textarea {
    ================================================ */
 .section-proceso {
   padding: var(--space-3xl) 0;
-  background: var(--bg-mid);
+  background: var(--bg-deep);
 }
 
 .proceso-header {
   margin-bottom: var(--space-xl);
   text-align: center;
+}
+
+.proceso-header .section-title em {
+  color: #090909;
 }
 
 @media (max-width: 768px) {
@@ -914,7 +919,7 @@ textarea {
 
 .anatomia-col h3 {
   font-family: var(--serif);
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   margin-bottom: var(--space-md);
   color: var(--text-primary);
 }
@@ -926,7 +931,7 @@ textarea {
 }
 
 .anatomia-col li {
-  font-size: 0.88rem;
+  font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1.5;
   padding-left: 1rem;
@@ -1729,7 +1734,11 @@ textarea {
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem var(--space-md);
-  transition: background 0.4s ease, padding 0.4s ease;
+  transition: background 0.4s ease, padding 0.4s ease, transform 0.4s ease;
+}
+
+.nav--hidden {
+  transform: translateY(-100%);
 }
 
 .nav.nav--scrolled {
@@ -2016,16 +2025,56 @@ textarea {
 /* ================================================
    ANATOMÍA - SWIPER CARDS STYLE
    ================================================ */
-.anatomia-slider-component {
+.cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
   width: 100%;
-  max-width: 450px;
+  max-width: 1200px;
   margin: 0 auto;
-  position: relative;
+  padding: 0 2rem;
 }
 
-.anatomia-swiper .swiper-slide {
-  height: auto;
-  align-self: stretch;
+.curso-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-card, #0f0f13);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(240, 235, 224, 0.1);
+  padding: 1.5rem;
+  position: relative;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  color: var(--text-primary);
+}
+
+.curso-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.curso-num {
+  font-family: var(--font-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.curso-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+}
+
+.curso-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  flex-grow: 1;
 }
 
 .swiper-cards {
@@ -2194,4 +2243,47 @@ textarea {
   padding-top: 15px !important;
   padding-bottom: 15px !important;
   min-height: auto !important;
+}
+
+/* Custom Navbar Classes from Provided Code */
+.styles_navlist__jn5TD {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.styles_nav-item__gskwZ {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.styles_slash__wCXNQ {
+  height: 14px;
+  width: auto;
+}
+
+.styles_link__D6WoL {
+  text-decoration: none;
+  color: var(--text-primary, #fff);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.styles_is-active__Bgm5c .styles_link__D6WoL,
+.styles_link__D6WoL:hover {
+  color: var(--accent-cyan, #20E7B7);
+}
+
+/* Background para Sección Manifiesto */
+.section-manifiesto {
+  background-image: url('../assets/seccion2_bkg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
