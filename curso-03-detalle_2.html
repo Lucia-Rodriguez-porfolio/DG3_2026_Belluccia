@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mueble de Autor — Curso 03 | Madera Viva</title>
+  <meta name="description"
+    content="Desarrollá una colección propia con enfoque en identidad, materiales y detalle artesanal. Curso Mueble de Autor de Madera Viva." />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/curso-03-detalle.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <!-- Cursor personalizado -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- NAVBAR (global, igual a index.html) -->
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo_blanco.png" alt="MADERA VIVA" width="200" height="40" class="nav-logo-img">
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#proceso">Proceso</a></li>
+      <li><a href="index.html#restauracion">Restauración</a></li>
+      <li><a href="index.html#capsula">Cápsula</a></li>
+      <li><a href="#reserva" class="nav-cta btn btn-ghost"><span>Consultar</span></a></li>
+    </ul>
+    <button class="nav-burger" id="navBurger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO + BAJADA + CTA -->
+  <section class="cd-hero" id="curso-hero">
+    <div class="cd-hero-img"></div>
+    <div class="cd-hero-overlay"></div>
+    <div class="hero-grain"></div>
+    <div class="cd-hero-content">
+      <a href="index.html#anatomia" class="cd-back">&larr; Volver a todos los cursos</a>
+      <span class="cd-eyebrow">Curso 03 · Estética de Autor</span>
+      <h1 class="cd-title" style="color: #fff; font-style: normal;">Mueble de Autor</h1>
+      <p class="cd-bajada">Desarrollá una colección propia con enfoque en identidad, materiales y detalle
+        artesanal. Del boceto a la firma: encontrá tu lenguaje como diseñador de objetos.</p>
+      <div class="cd-hero-ctas">
+        <a href="#reserva" class="btn btn-primary">Reservar mi lugar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1 — DETALLES DEL CURSO (imagen al costado) -->
+  <section class="cd-detalles" id="detalles">
+    <div class="container">
+      <div class="cd-detalles-grid">
+        <div class="cd-detalles-img">
+          <img src="assets/img2.jpg" alt="Pieza de autor trabajada en el taller de Madera Viva" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="cd-detalles-text">
+          <span class="section-label">Sobre el curso</span>
+          <h2 class="section-title" style="margin-bottom: var(--space-md); color: #000; font-style: normal;">Tu propio<br />lenguaje en madera.</h2>
+          <p>Pensado para quienes ya dominan el oficio y buscan dar el salto hacia una producción de autor:
+            piezas con identidad propia, coherencia estética y un criterio de diseño reconocible.</p>
+          <p>Trabajamos investigación de referentes, desarrollo de un sistema formal propio, selección
+            consciente de materiales recuperados y ejecución de una colección cápsula de 3 a 5 piezas.</p>
+          <div class="cd-detalles-meta">
+            <div>
+              <span class="cd-meta-label">Duración</span>
+              <span class="cd-meta-value">4 Meses</span>
+            </div>
+            <div>
+              <span class="cd-meta-label">Modalidad</span>
+              <span class="cd-meta-value">Taller + Virtual</span>
+            </div>
+            <div>
+              <span class="cd-meta-label">Cupos</span>
+              <span class="cd-meta-value">12 alumnos</span>
+            </div>
+            <div>
+              <span class="cd-meta-label">Inversión</span>
+              <span class="cd-meta-value">$40.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2 — LEARNING PATH (reutiliza .proceso-steps / .proceso-step ya animados en main.js) -->
+  <section class="section section-proceso" id="proceso-curso">
+    <div class="container">
+      <div class="proceso-header">
+        <span class="section-label">Learning Path</span>
+        <h2 class="section-title">Tu recorrido<br>dentro del curso.</h2>
+      </div>
+      <div class="proceso-steps">
+        <div class="proceso-step" data-step="01">
+          <div class="paso-numero">01 — Fundamentos</div>
+          <h3 class="paso-titulo">Diagnóstico y referentes</h3>
+          <p class="paso-desc">Relevamos tu nivel técnico y armamos tu moodboard: los referentes que van a
+            guiar tu lenguaje propio.</p>
+        </div>
+        <div class="proceso-connector" aria-hidden="true"></div>
+        <div class="proceso-step" data-step="02">
+          <div class="paso-numero">02 — Desarrollo</div>
+          <h3 class="paso-titulo">Sistema formal y materiales</h3>
+          <p class="paso-desc">Definís tus proporciones, uniones y terminaciones características, y elegís
+            los materiales recuperados de tu colección.</p>
+        </div>
+        <div class="proceso-connector" aria-hidden="true"></div>
+        <div class="proceso-step" data-step="03">
+          <div class="paso-numero">03 — Colección final</div>
+          <h3 class="paso-titulo">Ejecución y presentación</h3>
+          <p class="paso-desc">Producís tu colección cápsula, la documentás fotográficamente y la dejás
+            lista para exhibir o vender.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3 — GALERÍA DE PROYECTOS (reutiliza el mosaico .section-galeria con parallax) -->
+  <section class="section section-galeria" id="galeria-curso">
+    <div class="container">
+      <div class="galeria-header">
+        <span class="section-label">Galería</span>
+        <h2 class="section-title" style="color: #000; font-style: normal;">Proyectos de<br />ex alumnos.</h2>
+      </div>
+      <div class="galeria-paralaje">
+        <div class="galeria-item galeria-item--1" data-speed="0.4">
+          <img src="assets/galeria5.jpg" alt="Pieza de autor — colección cápsula de ex alumno" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="galeria-item galeria-item--2" data-speed="0.2">
+          <img src="assets/galeria1.jpg" alt="Detalle de ensamblaje en pieza de autor" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="galeria-item galeria-item--3" data-speed="0.5">
+          <img src="assets/galeria2.jpg" alt="Colección cápsula terminada en el taller" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="galeria-item galeria-item--4" data-speed="0.3">
+          <img src="assets/galeria3.jpg" alt="Proceso de intervención en pieza de autor" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="galeria-item galeria-item--5" data-speed="0.25">
+          <img src="assets/galeria4.jpg" alt="Trabajo en taller durante la cursada" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4 — QUIÉNES GUÍAN LA CURSADA -->
+  <section class="cd-docentes" id="docentes">
+    <div class="container">
+      <span class="section-label">Quiénes guían</span>
+      <h2 class="section-title">Tu equipo<br />docente.</h2>
+      <div class="cd-docentes-grid">
+        <div class="cd-docente">
+          <div class="cd-docente-img">
+            <!-- Reemplazar por foto real. Placeholder con aspect-ratio 1/1 para no romper el layout -->
+            <img src="assets/docente-placeholder-1.jpg" alt="Foto del instructor principal" loading="lazy">
+          </div>
+          <h3>Nombre Apellido</h3>
+          <span class="cd-docente-rol">Ebanista · Director de taller</span>
+          <p>Más de 15 años restaurando e interviniendo mobiliario histórico. Guía el desarrollo técnico de
+            cada colección.</p>
+        </div>
+        <div class="cd-docente">
+          <div class="cd-docente-img">
+            <img src="assets/docente-placeholder-2.jpg" alt="Foto de la instructora de diseño" loading="lazy">
+          </div>
+          <h3>Nombre Apellido</h3>
+          <span class="cd-docente-rol">Diseñadora industrial</span>
+          <p>Acompaña la construcción del sistema formal propio de cada alumno y el criterio de identidad
+            visual.</p>
+        </div>
+        <div class="cd-docente">
+          <div class="cd-docente-img">
+            <img src="assets/docente-placeholder-3.jpg" alt="Foto del asistente de taller" loading="lazy">
+          </div>
+          <h3>Nombre Apellido</h3>
+          <span class="cd-docente-rol">Asistente de taller</span>
+          <p>Soporte técnico día a día en el taller: materiales, herramientas y seguimiento de cada pieza.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 5 — RESERVA TU LUGAR -->
+  <section class="cd-reserva" id="reserva">
+    <div class="cd-reserva-gradient" aria-hidden="true"></div>
+    <div class="container">
+      <div class="cd-reserva-grid">
+        <div>
+          <h2 class="footer-title">¿Reservamos tu<br />lugar en Autor?</h2>
+          <p class="footer-sub">Los cupos son limitados a 12 alumnos por cohorte. Contanos un poco sobre vos
+            y coordinamos una charla.</p>
+          <div class="footer-contact-info">
+            <a href="mailto:hola@maderaviva.com?subject=Consulta%20Curso%2003%20-%20Mueble%20de%20Autor"
+              class="footer-link">hola@maderaviva.com</a>
+            <a href="https://wa.me/5491100000000" class="footer-link" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+        </div>
+        <form class="footer-form" id="footerForm" novalidate>
+          <div class="form-group">
+            <label for="formNombre">Nombre</label>
+            <input type="text" id="formNombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="formEmail">Email</label>
+            <input type="email" id="formEmail" name="email" placeholder="tu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="formMensaje">Contanos sobre vos</label>
+            <textarea id="formMensaje" name="mensaje" rows="4"
+              placeholder="¿Qué experiencia tenés? ¿Qué te gustaría lograr con el curso?" required></textarea>
+          </div>
+          <input type="hidden" name="curso" value="Curso 03 — Mueble de Autor" />
+          <button type="submit" class="btn btn-primary btn-large btn-full">Enviar consulta</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (wordmark + legal, reutiliza .footer-bottom / .footer-logo-big / .footer-meta) -->
+  <footer class="cd-footer">
+    <div class="container footer-bottom">
+      <span class="footer-logo-big" aria-hidden="true">MADERA<span>VIVA</span></span>
+      <div class="footer-meta">
+        <a href="index.html#contacto">Política de privacidad</a>
+        <span>&copy; 2026 Madera Viva. Todos los derechos reservados.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

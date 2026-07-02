@@ -571,7 +571,7 @@ textarea {
    SECCIÓN 3 — EL TALLER / PROCESO
    ================================================ */
 .section-proceso {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-2xl) 0;
   background: var(--bg-deep);
 }
 
@@ -671,7 +671,7 @@ textarea {
    SECCIÓN 4 — TRANSICIÓN DE CONTRASTE
    ================================================ */
 .section-transicion {
-  padding: var(--space-xl) 0;
+  padding: var(--space-2xl) 0;
   background: var(--bg-deep);
   display: flex;
   align-items: center;
@@ -705,7 +705,7 @@ textarea {
    SECCIÓN 5 — RESTAURACIÓN INTEGRAL
    ================================================ */
 .section-restauracion {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-2xl) 0;
   background: var(--bg-mid);
 }
 
@@ -950,7 +950,7 @@ textarea {
    SECCIÓN 7 — CÁPSULA TEASER
    ================================================ */
 .section-capsula-teaser {
-  padding: var(--space-3xl) 0;
+  padding: var(--space-2xl) 0;
   background: var(--bg-deep);
   position: relative;
   overflow: hidden;
@@ -1089,7 +1089,7 @@ textarea {
    SECCIÓN 8 — GALERÍA PARALAJE
    ================================================ */
 .section-galeria {
-  padding: var(--space-xl) 0;
+  padding: var(--space-2xl) 0;
   background: var(--bg-mid);
   overflow: hidden;
 }
@@ -1424,7 +1424,7 @@ textarea {
    SECCIÓN 11 — TESTIMONIOS
    ================================================ */
 .section-testimonios {
-  padding: var(--space-xl) 0;
+  padding: var(--space-2xl) 0;
   background: var(--bg-surface);
 }
 
