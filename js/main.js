@@ -812,5 +812,95 @@
     }
   }
 
+  // ---- EFECTO PARALLAX FLOTANTE MUEBLES CÁPSULA (JS NATIVO) ----
+  const capsulaSection = document.getElementById("capsula");
+  if (capsulaSection) {
+    const items = capsulaSection.querySelectorAll(".c-element-overviewgrid > .overview-item:not(.bento-header-wrapper):not(.infinity-item--skip)");
+
+    // Factores de movimiento asíncronos/diferentes por imagen (parallax orgánico)
+    const factors = [
+      { x: -0.04, y: -0.04 }, // Img 1
+      { x: 0.03, y: -0.05 },  // Img 2
+      { x: -0.05, y: 0.02 },  // Img 3
+      { x: 0.04, y: 0.04 },   // Img 4
+      { x: -0.03, y: 0.05 },  // Img 5
+      { x: 0.05, y: -0.03 }   // Img 6
+    ];
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+      // Coordenadas relativas al centro del viewport (-0.5 a 0.5)
+      targetX = (e.clientX / window.innerWidth) - 0.5;
+      targetY = (e.clientY / window.innerHeight) - 0.5;
+    });
+
+    function animateParallax() {
+      // Interpolación lineal suave (lerp)
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+
+      items.forEach((item, index) => {
+        const factor = factors[index] || { x: 0.03, y: 0.03 };
+        // Desplazamiento máximo de 15px - 20px
+        const moveX = currentX * factor.x * 400;
+        const moveY = currentY * factor.y * 400;
+
+        const media = item.querySelector(".fs-media");
+        if (media) {
+          media.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+        }
+      });
+
+      requestAnimationFrame(animateParallax);
+    }
+
+    animateParallax();
+  }
+
 })();
 
+// Mobile Capsula Loop Carousel
+function initMobileCapsulaCarousel() {
+  if (window.innerWidth <= 768) {
+    const grid = document.querySelector("#capsula .c-element-overviewgrid");
+    if (!grid || grid.classList.contains("carousel-initialized")) return;
+    
+    // Extract bento header and place it before the grid
+    const bentoHeader = grid.querySelector(".bento-header-wrapper");
+    if (bentoHeader) {
+      grid.parentNode.insertBefore(bentoHeader, grid);
+    }
+    
+    // Get all image items
+    const items = Array.from(grid.querySelectorAll(".overview-item:not(.bento-header-wrapper):not(.infinity-item--skip)"));
+    
+    // Clear skip items from DOM
+    grid.querySelectorAll(".infinity-item--skip").forEach(el => el.remove());
+    
+    // Create track
+    const track = document.createElement("div");
+    track.className = "capsula-carousel-track";
+    
+    // Append items to track
+    items.forEach(item => {
+      track.appendChild(item);
+    });
+    
+    // Clone items for seamless loop
+    items.forEach(item => {
+      const clone = item.cloneNode(true);
+      clone.classList.add("carousel-clone");
+      track.appendChild(clone);
+    });
+    
+    grid.innerHTML = "";
+    grid.appendChild(track);
+    grid.classList.add("carousel-initialized");
+  }
+}
+window.addEventListener("DOMContentLoaded", initMobileCapsulaCarousel);
+window.addEventListener("resize", initMobileCapsulaCarousel);
