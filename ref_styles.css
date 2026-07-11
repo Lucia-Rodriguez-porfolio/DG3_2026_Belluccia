@@ -1,0 +1,1125 @@
+﻿/* =====================================================================
+   CÚSPIDES — Escuela de montañismo
+   Estilos de las 3 primeras secciones (Hero / Nosotros / Preparación)
+   ---------------------------------------------------------------------
+   - Diseño base: artboard de 1440px de ancho. A 1440px todo coincide
+     exactamente con la referencia (incluida la cantidad de líneas).
+   - En pantallas más chicas escala de forma fluida mediante la unidad
+     --u (1 "px de diseño"), que vale 1px a 1440px y se reduce abajo.
+   ===================================================================== */
+
+/* ---------- Variables globales: paleta + tipografías + escala ---------- */
+:root {
+  /* Paleta */
+  --color-bg:     #F9F7F5; /* fondo */
+  --color-dark:   #27221C; /* tipografía / líneas oscuras */
+  --color-accent: #E74F26; /* acento */
+  --color-muted:  #A19484; /* gris de transición (texto "nosotros" inicial) */
+
+  /* Familias tipográficas */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-text:    "Fustat", system-ui, sans-serif;
+
+  /* Unidad fluida de diseño:
+     100vw / 1920 = 0.0520833vw  ->  vale 1px a 1920px de ancho.
+     Se acota: tope máximo 1px (no crece arriba de 1920) y un piso para
+     que en pantallas chicas el texto no se vuelva ilegible. */
+  --u: clamp(0.5px, 0.0520833vw, 1px);
+
+  /* Celeste de la sección Datos / conectores */
+  --color-cyan: #8DAFC3;
+  --color-gray: #D9D9D9;
+}
+
+/* ---------- Reset básico ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;        /* scroll suave para los links del menú */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-dark);
+  font-family: var(--font-text);
+  /* Evita scroll horizontal por las capas/animaciones.
+     Usamos "clip" (no "hidden") para NO convertir al <body> en contenedor
+     de scroll: así window.scrollY / scrollTo siguen funcionando (parallax)
+     y position: sticky se comporta de forma normal. */
+  overflow-x: clip;
+}
+
+img { display: block; max-width: 100%; }
+
+ul { margin: 0; padding: 0; list-style: none; }
+a  { color: inherit; text-decoration: none; }
+
+
+/* =====================================================================
+   HEADER / NAV — fijo arriba, siempre visible
+   ===================================================================== */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;            /* top:0; left:0; right:0 */
+  z-index: 100;
+  /* En el hero la barra es del color del fondo (cielo): transparente. */
+  background: transparent;
+  transition: background-color .3s ease, backdrop-filter .3s ease;
+}
+/* Al salir del hero, toma la tonalidad crema/translúcida sobre el resto. */
+.header--solid {
+  background: rgba(249, 247, 245, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* 60px de margen lateral (logo a la izquierda, "Contacto" a la derecha) */
+  padding: calc(34 * var(--u)) calc(60 * var(--u));
+}
+
+.nav__logo {
+  width: calc(132 * var(--u));
+  height: auto;
+}
+
+.nav__menu {
+  display: flex;
+  /* Ítems separados SOLO por espacio; 48px entre cada uno */
+  gap: calc(48 * var(--u));
+}
+
+.nav__menu a {
+  font-family: var(--font-text);
+  font-weight: 600;             /* Fustat SemiBold */
+  font-size: clamp(13px, 0.9375vw, 18px);
+  color: var(--color-dark);
+  transition: color .2s ease;
+}
+.nav__menu a:hover { color: var(--color-accent); }
+
+
+/* =====================================================================
+   SECCIÓN 1 — HERO
+   ===================================================================== */
+.hero {
+  position: relative;
+  /* A 1920px de ancho -> 1080px de alto (artboard). Escala con --u.
+     La imagen de frente (1920x1080) entra exacta a ancho completo. */
+  height: calc(1080 * var(--u));
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+/* Capas del parallax */
+.hero__layer {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  will-change: transform;
+}
+
+/* Fondo: cielo + montañas lejanas. Cubre todo el hero. */
+.hero__layer--back { inset: 0; }
+.hero__img--back {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* Frente: pico con el montañista. A tamaño natural y ancho completo, anclado
+   arriba: la masa sólida de la montaña arranca recién hacia ~y594 (el cielo
+   superior es transparente), por lo que el título y la bajada nunca la pisan.
+   El montañista queda a ~y624, igual que en la referencia. */
+.hero__layer--front {
+  top: 0;
+  height: 100%;                  /* alto definido para que la imagen lo llene */
+}
+.hero__img--front {
+  width: 100%;
+  /* Llena SIEMPRE el alto del hero (igual que la capa de fondo) para que su
+     borde inferior nunca quede a la vista como una línea entre secciones,
+     aun cuando --u se acota o hay barra de scroll. A 1920 el recorte es nulo
+     (mismo aspect), así que la cabeza/pies del montañista quedan en su sitio. */
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* ---- Contenido textual del hero (sobre el cielo) ----
+   padding-top deja aire bajo la nav (el título no queda pegado) y, junto con
+   los altos del bloque, deja la bajada ~28px por encima de la cabeza del
+   montañista (que está en y≈549 de frentehero). */
+.hero__content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding-top: calc(198 * var(--u));
+}
+
+.hero__title {
+  margin: 0;
+  color: var(--color-dark);
+  font-family: var(--font-display);
+  /* 125px a 1920px; clamp para que entre en pantallas chicas */
+  font-size: clamp(38px, 6.5104vw, 125px);
+  line-height: 0.96;             /* interlineado bajo: 2 líneas juntas */
+  letter-spacing: -0.02em;       /* tracking negativo (apenas condensada) */
+}
+.hero__title-line { display: block; }
+.hero__title-line--1 { font-weight: 400; } /* Bricolage Regular */
+.hero__title-line--2 { font-weight: 500; } /* Bricolage Medium */
+
+.hero__subtitle {
+  margin: calc(18 * var(--u)) auto 0;   /* título y bajada bien juntos */
+  font-family: var(--font-text);
+  font-weight: 500;              /* Fustat Medium */
+  font-size: clamp(15px, 1.3021vw, 25px);
+  line-height: 1.3;
+  color: var(--color-dark);
+}
+
+/* ---- Botón CTA ---- */
+.cta {
+  position: absolute;
+  z-index: 4;                     /* DEBAJO del degradado: queda tapado por él */
+  left: 50%;
+  /* Centro en y≈786 = 148px debajo de los pies del montañista, igual que en
+     la referencia. El JS lo desplaza con el MISMO parallax que frentehero. */
+  top: calc(786 * var(--u));
+  transform: translate(-50%, -50%);
+  will-change: transform;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;                         /* el gap se "abre" en hover */
+
+  padding: calc(15 * var(--u)) calc(30 * var(--u));
+  border: none;
+  border-radius: 999px;           /* pill bien redondeada */
+  background: #ffffff;
+  box-shadow: 0 calc(8 * var(--u)) calc(28 * var(--u)) rgba(39, 34, 28, 0.12);
+  cursor: pointer;
+
+  font-family: var(--font-text);
+  font-weight: 600;               /* Fustat SemiBold */
+  font-size: calc(22 * var(--u));
+  color: var(--color-dark);
+
+  transition: box-shadow .25s ease;
+}
+.cta:hover { box-shadow: 0 calc(12 * var(--u)) calc(34 * var(--u)) rgba(39, 34, 28, 0.18); }
+
+.cta__text {
+  transition: transform .25s ease;
+}
+/* En hover el texto se corre a la izquierda y aparece la flecha */
+.cta:hover .cta__text { transform: translateX(calc(-6 * var(--u))); }
+
+.cta__arrow {
+  width: 0;
+  height: calc(17 * var(--u));
+  opacity: 0;
+  margin-left: 0;
+  transition: width .25s ease, opacity .25s ease, margin-left .25s ease;
+}
+.cta:hover .cta__arrow {
+  width: calc(17 * var(--u));
+  opacity: 1;
+  margin-left: calc(10 * var(--u));
+}
+
+/* ---- Degradado de transición hacia "Nosotros" ---- */
+.hero__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 6;
+  pointer-events: none;          /* deja pasar el clic al botón que tapa */
+  /* Más alto y llega a color pleno ANTES del borde inferior de la imagen,
+     para que no se vea la línea del corte de frentehero al pasar a Nosotros. */
+  height: calc(330 * var(--u));
+  background: linear-gradient(
+    to bottom,
+    rgba(249, 247, 245, 0) 0%,
+    rgba(249, 247, 245, 0.55) 42%,
+    var(--color-bg) 74%,
+    var(--color-bg) 100%
+  );
+}
+
+
+/* =====================================================================
+   TEXTURA DE GRILLA (compartida por Nosotros y Preparación)
+   Líneas finas tipo cuadrícula, difuminadas hacia los bordes.
+   ===================================================================== */
+.grid-texture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right,  rgba(39, 34, 28, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(39, 34, 28, 0.06) 1px, transparent 1px);
+  background-size:
+    calc(90 * var(--u)) calc(90 * var(--u)),
+    calc(90 * var(--u)) calc(90 * var(--u));
+  /* La grilla se desvanece hacia los bordes (máscara con gradiente radial) */
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 35%, transparent 88%);
+          mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 35%, transparent 88%);
+}
+
+
+/* =====================================================================
+   SECCIÓN 2 — NOSOTROS  (pinned + reveal de color)
+   ===================================================================== */
+.nosotros {
+  position: relative;
+  z-index: 1;                    /* pinta por encima del borde del hero */
+  background: var(--color-bg);
+  /* Solapa 2px el borde del hero para tapar la costura de 1px del recorte */
+  margin-top: -2px;
+}
+
+/* El track aporta altura extra que se "consume" mientras la sección
+   queda fija (sticky). Más alto = más recorrido para el reveal. */
+.nosotros__track { height: 250vh; }
+
+.nosotros__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nosotros__text {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  max-width: calc(1500 * var(--u));
+  text-align: center;
+  font-family: var(--font-text);
+  font-weight: 500;              /* Fustat Medium */
+  font-size: clamp(24px, 2.8646vw, 55px);
+  line-height: 1.3;
+  padding: 0 24px;
+}
+
+/* Estado inicial de cada palabra: gris de transición */
+.nosotros__text .word {
+  color: var(--color-muted);
+  transition: color .15s ease;
+}
+
+
+/* =====================================================================
+   SECCIÓN 3 — DATOS  (tres cifras)
+   ===================================================================== */
+.datos {
+  position: relative;
+  background: var(--color-bg);
+  /* Alto automático con espaciado vertical generoso */
+  padding: calc(180 * var(--u)) calc(60 * var(--u));
+}
+
+.datos__grid {
+  position: relative;
+  z-index: 2;
+  max-width: calc(1680 * var(--u));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(40 * var(--u));
+}
+
+.dato { text-align: center; }
+
+.dato__num {
+  display: block;
+  font-family: var(--font-text);
+  font-weight: 700;              /* Fustat Bold */
+  font-size: clamp(56px, 7.8125vw, 150px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-cyan);
+}
+
+.dato__caption {
+  margin: calc(42 * var(--u)) 0 0;  /* 42px número -> bajada */
+  font-family: var(--font-text);
+  font-weight: 500;              /* Fustat Medium */
+  font-size: clamp(15px, 1.7708vw, 34px);
+  letter-spacing: 0.01em;
+  color: var(--color-dark);
+}
+
+
+/* =====================================================================
+   SECCIÓN 4 — PREPARACIÓN  (scroll-jacking horizontal)
+   ===================================================================== */
+.prep {
+  position: relative;
+  background: var(--color-bg);
+  padding-top: calc(60 * var(--u));
+}
+
+/* Encabezado (alineado a la izquierda), por ENCIMA del degradado/grilla */
+.prep__header {
+  position: relative;
+  z-index: 2;
+  max-width: calc(1800 * var(--u));
+  margin: 0 auto;
+  padding: 0 calc(60 * var(--u));
+}
+
+.prep__label {
+  margin: 0 0 calc(14 * var(--u));
+  font-family: var(--font-display);
+  font-weight: 400;              /* Bricolage Regular */
+  font-size: clamp(15px, 1.40625vw, 27px);
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
+/* Título a la izquierda, bajada a su derecha (no debajo) */
+.prep__heading-row {
+  display: flex;
+  flex-wrap: wrap;               /* la bajada baja debajo si no entra */
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: calc(24 * var(--u)) calc(60 * var(--u));
+}
+
+.prep__title {
+  margin: 0;
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-weight: 500;              /* Bricolage Medium */
+  font-size: clamp(34px, 4.4792vw, 86px);
+  line-height: 0.98;             /* interlineado bajo */
+  letter-spacing: -0.02em;
+  color: var(--color-dark);
+}
+.prep__title span { display: block; }
+
+.prep__subtitle {
+  margin: 0 0 calc(10 * var(--u));   /* alineada al pie del título */
+  max-width: calc(620 * var(--u));
+  font-family: var(--font-text);
+  font-weight: 500;              /* Fustat Medium */
+  font-size: clamp(15px, 1.5104vw, 29px);
+  line-height: 1.4;
+  color: var(--color-dark);
+}
+
+/* --- Mecánica del scroll-jacking ---
+   El track tiene altura artificial; el contenido queda fijo (sticky)
+   y las cards se desplazan en horizontal según el avance del scroll.
+   La altura final la fija el JS (variable --track-h). */
+.prep__track {
+  position: relative;
+  height: var(--track-h, 320vh);
+}
+
+.prep__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.prep__cards {
+  display: flex;
+  align-items: flex-start;
+  /* El espacio entre cards lo aportan los conectores (no gap) */
+  gap: 0;
+  will-change: transform;
+  /* padding-left lo calcula el JS para centrar la primera card */
+}
+
+/* Cards: sin caja (ni borde, ni fondo, ni sombra). Texto suelto. */
+.card {
+  flex: 0 0 auto;
+  width: calc(620 * var(--u));
+  text-align: center;
+  color: var(--color-dark);
+  font-family: var(--font-text);
+}
+
+.card__num {
+  display: block;
+  font-weight: 600;              /* Fustat SemiBold */
+  font-size: clamp(60px, 7.8125vw, 150px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.card__line {
+  width: calc(167 * var(--u));
+  height: calc(4 * var(--u));
+  margin: calc(18 * var(--u)) auto calc(26 * var(--u));
+  /* la línea conserva proporción visible (no altura 0) */
+  object-fit: contain;
+}
+
+.card__title {
+  margin: 0 0 calc(20 * var(--u));
+  font-weight: 600;              /* Fustat SemiBold */
+  font-size: clamp(28px, 3.4375vw, 66px);
+  line-height: 1.1;
+  white-space: nowrap;           /* título en una sola línea */
+}
+
+.card__desc {
+  margin: 0 auto;
+  max-width: calc(620 * var(--u));
+  font-weight: 600;              /* Fustat SemiBold */
+  font-size: clamp(16px, 1.71875vw, 33px);
+  line-height: 1.4;
+}
+
+/* --- Conector animado entre cards: [cuadrado]—línea—[cuadrado] ---
+   Se alinea a la altura del número. El relleno celeste y el color de los
+   cuadrados los controla el JS según el progreso del scroll-jacking. */
+.connector {
+  flex: 0 0 auto;
+  width: calc(360 * var(--u));
+  align-self: flex-start;
+  margin-top: calc(96 * var(--u));   /* alinea con la franja del número */
+  display: flex;
+  align-items: center;
+  gap: calc(6 * var(--u));
+}
+
+.connector__sq {
+  flex: 0 0 auto;
+  width: calc(19 * var(--u));
+  height: calc(19 * var(--u));
+  background: var(--color-gray);
+  transition: background-color .12s ease;
+}
+
+.connector__line {
+  position: relative;
+  flex: 1 1 auto;
+  height: calc(3 * var(--u));
+  background: var(--color-gray);
+  overflow: hidden;
+}
+
+.connector__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;                     /* 0..100% lo fija el JS */
+  background: var(--color-cyan);
+}
+
+
+/* =====================================================================
+   SECCIÓN 5 — CURSOS / FORMACIÓN  (fondo oscuro liso)
+   ===================================================================== */
+.cursos {
+  position: relative;
+  background: var(--color-dark);            /* #27221C liso */
+  color: var(--color-bg);
+  padding: calc(150 * var(--u)) calc(60 * var(--u));
+}
+
+/* Encabezado: kicker + título (izq) y bajada (der).
+   Ocupa todo el ancho de contenido (el título queda un poco a la izquierda
+   de la fila de cards) y la bajada va a 200px del título. */
+.cursos__header {
+  margin: 0 0 calc(72 * var(--u));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: calc(28 * var(--u)) calc(200 * var(--u));
+}
+.cursos__kicker {
+  margin: 0 0 calc(16 * var(--u));
+  font-family: var(--font-display);
+  font-weight: 400;                         /* Bricolage Regular */
+  font-size: clamp(14px, 1.0417vw, 20px);
+  letter-spacing: 0.02em;
+  color: #B0CEDF;
+}
+.cursos__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;                         /* Bricolage Medium */
+  font-size: clamp(38px, 4.1667vw, 80px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--color-bg);
+}
+.cursos__lead {
+  margin: 0 0 calc(10 * var(--u));
+  max-width: calc(845 * var(--u));          /* 2 líneas, sin saltar de fila */
+  font-family: var(--font-text);
+  font-weight: 500;                         /* Fustat Medium */
+  font-size: clamp(15px, 1.25vw, 24px);
+  line-height: 1.4;
+  color: var(--color-bg);
+}
+
+/* Fila de 3 cards centradas, separadas 37px */
+.cursos__grid {
+  max-width: calc(1657 * var(--u));
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: calc(37 * var(--u));
+}
+
+/* --- Card --- */
+.curso {
+  position: relative;
+  flex: 0 0 auto;
+  width: calc(527.56 * var(--u));
+  height: calc(789.47 * var(--u));
+  /* radio = al de las esquinas de la imagen (≈31px) y fondo transparente,
+     así no queda ese reborde blanco: el borde es el de la propia imagen. */
+  border-radius: calc(31 * var(--u));
+  overflow: hidden;
+  background: transparent;
+  box-shadow: 0 calc(18 * var(--u)) calc(48 * var(--u)) rgba(0, 0, 0, 0.28);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+/* Hover: la card se agranda apenas (sutil) */
+.curso:hover {
+  transform: scale(1.02);
+  box-shadow: 0 calc(26 * var(--u)) calc(60 * var(--u)) rgba(0, 0, 0, 0.34);
+}
+
+.curso__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Degradado que funde la foto hacia el crema donde va el texto */
+.curso__fade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(249, 247, 245, 0) 0%,
+    rgba(249, 247, 245, 0) 52%,
+    var(--color-bg) 78%,
+    var(--color-bg) 100%
+  );
+}
+
+/* Badge "EL MÁS ELEGIDO" (card destacada) */
+.curso__badge {
+  position: absolute;
+  top: calc(24 * var(--u));
+  right: calc(24 * var(--u));
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(192.35 * var(--u));
+  height: calc(49.75 * var(--u));
+  border-radius: calc(19 * var(--u));
+  background: var(--color-dark);
+  color: #FFFFFF;
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: clamp(13px, 1.0417vw, 20px);
+  letter-spacing: 0.02em;
+}
+
+/* Contenido anclado al fondo de la card: al expandir la bajada en hover,
+   el chip y el título "suben" de forma natural. */
+.curso__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 calc(30 * var(--u)) calc(34 * var(--u));
+}
+
+.curso__chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;                              /* se adapta al largo del texto */
+  height: calc(22.82 * var(--u));
+  padding: 0 calc(12 * var(--u));
+  margin-bottom: calc(16 * var(--u));
+  border-radius: calc(9 * var(--u));
+  background: rgba(39, 34, 28, 0.35);       /* #27221C @ 35% */
+  color: #FFFFFF;
+  font-family: var(--font-text);
+  font-weight: 600;                         /* Fustat SemiBold */
+  font-size: calc(13 * var(--u));
+  white-space: nowrap;
+}
+
+.curso__name {
+  margin: 0;
+  font-family: var(--font-text);
+  font-weight: 700;                         /* Fustat Bold */
+  font-size: clamp(16px, 1.3542vw, 26px);
+  line-height: 1.12;
+  letter-spacing: -0.015em;                 /* ajusta para que entre en 1 línea */
+  white-space: nowrap;                      /* título en una sola línea */
+  color: var(--color-dark);
+}
+
+/* Bajada: oculta en reposo, aparece en hover (animación de alto suave) */
+.curso__desc-wrap {
+  width: 100%;
+  max-height: 0;                            /* colapsada (incluye el padding) */
+  overflow: hidden;
+  transition: max-height .4s ease;
+}
+.curso:hover .curso__desc-wrap { max-height: calc(90 * var(--u)); }
+
+.curso__desc {
+  margin: 0;
+  padding-top: calc(14 * var(--u));
+  opacity: 0;
+  transition: opacity .4s ease;
+  font-family: var(--font-text);
+  font-weight: 500;                         /* Fustat Medium */
+  font-size: clamp(13px, 0.9375vw, 18px);
+  line-height: 1.35;
+  color: #7B7B7B;
+}
+
+.curso__line {
+  width: calc(467.97 * var(--u));
+  max-width: 100%;
+  height: calc(2.5 * var(--u));
+  margin: calc(22 * var(--u)) 0;
+  background: #000000;
+}
+
+.curso__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.curso__price {
+  font-family: var(--font-text);
+  font-weight: 700;                         /* Fustat Bold */
+  font-size: clamp(26px, 2.2917vw, 44px);
+  line-height: 1;
+  color: var(--color-dark);
+  transition: color .3s ease;
+}
+.curso__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(119 * var(--u));
+  height: calc(49 * var(--u));
+  border-radius: calc(16 * var(--u));       /* más redondeado, como la referencia */
+  background: var(--color-accent);          /* #E74F26 */
+  color: var(--color-bg);
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: clamp(13px, 1.0417vw, 20px);
+  transition: background-color .25s ease, transform .25s ease;
+}
+
+/* --- Hover de la card --- */
+.curso:hover .curso__desc { opacity: 1; }
+.curso:hover .curso__price { color: var(--color-accent); }
+
+/* Hover del botón: cambia de color y se agranda apenas */
+.curso__btn:hover {
+  background: #F16843;
+  transform: scale(1.05);
+}
+
+
+/* =====================================================================
+   SECCIÓN 6 — EXPERIENCIAS / RESULTADOS  (carrusel con scroll-jacking)
+   ===================================================================== */
+.exp {
+  position: relative;
+  background: var(--color-dark);
+}
+
+/* Sección de alto fijo: las fotos se pasan con las flechas (no por scroll) */
+.exp__track {
+  position: relative;
+  height: auto;
+}
+.exp__sticky {
+  position: static;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.exp__title {
+  margin: 0;
+  padding: calc(70 * var(--u)) calc(60 * var(--u)) 0;
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 500;                         /* Bricolage Medium */
+  font-size: clamp(38px, 4.1667vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-bg);
+}
+
+/* Escenario: aloja las fotos (posicionadas por JS) y los corchetes fijos.
+   La banda de fotos queda a 88px del título (margin-top) y su centro a 143px
+   del tope del escenario, de modo que la foto central arranca justo a 88px. */
+.exp__stage {
+  position: relative;
+  flex: 1;
+  margin-top: calc(88 * var(--u));
+}
+
+/* Corchetes fijos en el centro (24x181, línea 7px, #B0CEDF) */
+.exp__bracket {
+  position: absolute;
+  top: calc(143 * var(--u));
+  width: calc(24 * var(--u));
+  height: calc(181 * var(--u));
+  transform: translateY(-50%);
+  border: calc(7 * var(--u)) solid #B0CEDF;
+  z-index: 4;
+  pointer-events: none;
+}
+/* Centrado sobre el ancho real del contenido (50%), NO 50vw: vw incluye
+   el scrollbar y desplazaba todo ~7.5px a la derecha. */
+.exp__bracket--l { border-right: none; left: calc(50% - 279.5 * var(--u)); }
+.exp__bracket--r { border-left: none;  left: calc(50% + 255.5 * var(--u)); }
+
+/* Contenedor lógico: no afecta el layout (cada foto se posiciona absoluta) */
+.exp__strip { display: contents; }
+
+/* Cada foto: posición absoluta en el escenario; el JS le da el slot */
+.exp__item {
+  position: absolute;
+  top: calc(143 * var(--u));
+  left: 50%;
+  margin: 0;                                /* anula el margin por defecto de <figure> */
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  transition: transform .5s ease, opacity .5s ease;
+}
+
+.exp__img {
+  display: block;
+  width: calc(267 * var(--u));
+  height: calc(172 * var(--u));
+  object-fit: cover;
+  border-radius: calc(10 * var(--u));
+  transition: width .5s ease, height .5s ease;
+}
+/* Foto activa (en el centro): se agranda */
+.exp__item.is-active .exp__img {
+  width: calc(443 * var(--u));
+  height: calc(286 * var(--u));
+}
+
+/* Bajada bajo la foto activa (13px) */
+.exp__cap {
+  position: absolute;
+  top: calc(100% + 13 * var(--u));
+  left: 0;
+  width: calc(443 * var(--u));
+  margin: 0;
+  opacity: 0;
+  transition: opacity .35s ease;
+  font-family: var(--font-text);
+  font-weight: 400;                         /* Fustat Regular */
+  font-size: clamp(14px, 1.1979vw, 23px);
+  line-height: 1.35;
+  color: var(--color-bg);
+  pointer-events: none;
+}
+.exp__item.is-active .exp__cap { opacity: 1; }
+
+/* Flechas de navegación manual: par centrado, debajo de los corchetes
+   (en el mismo celeste #B0CEDF). Reemplazan al scroll-jacking. */
+.exp__nav {
+  position: absolute;
+  left: 50%;
+  top: calc(400 * var(--u));
+  transform: translateX(-50%);
+  display: flex;
+  gap: calc(24 * var(--u));
+  z-index: 6;
+}
+.exp__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(46 * var(--u));
+  height: calc(46 * var(--u));
+  padding: 0;
+  background: transparent;
+  border: calc(2 * var(--u)) solid #B0CEDF;
+  border-radius: 50%;
+  color: #B0CEDF;
+  cursor: pointer;
+  transition: background-color .25s ease, color .25s ease;
+}
+.exp__arrow svg {
+  width: calc(22 * var(--u));
+  height: calc(22 * var(--u));
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.exp__arrow:hover {
+  background: #B0CEDF;
+  color: var(--color-dark);
+}
+
+
+/* =====================================================================
+   SECCIÓN 7 — FRASE  (imagen de pausa con cita centrada)
+   ===================================================================== */
+.frase {
+  position: relative;
+  background: var(--color-dark);
+  line-height: 0;                           /* sin hueco bajo la imagen */
+}
+.frase__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Cita centrada sobre la imagen */
+.frase__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: normal;
+  padding: 0 calc(40 * var(--u));
+}
+.frase__title {
+  margin: 0;
+  font-family: var(--font-text);
+  font-weight: 600;                         /* Fustat SemiBold */
+  font-size: clamp(39px, 4.2708vw, 82px);   /* 82px @1920 */
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+}
+/* Línea: 125px de ancho, a 66px del título */
+.frase__line {
+  width: calc(125 * var(--u));
+  height: calc(2 * var(--u));
+  margin-top: calc(66 * var(--u));
+  background: #FFFFFF;
+}
+/* Autor: a 21px de la línea */
+.frase__author {
+  margin: calc(21 * var(--u)) 0 0;
+  font-family: var(--font-text);
+  font-weight: 500;                         /* Fustat Medium */
+  font-size: clamp(14px, 1.3542vw, 26px);   /* 26px @1920 */
+  color: #FFFFFF;
+}
+
+/* Animación sutil de aparición (escalonada) al entrar en viewport */
+.frase__title,
+.frase__line,
+.frase__author {
+  opacity: 0;
+  transform: translateY(calc(22 * var(--u)));
+  transition: opacity .8s ease, transform .8s ease;
+}
+.frase.is-in .frase__title  { opacity: 1; transform: translateY(0); transition-delay: .05s; }
+.frase.is-in .frase__line   { opacity: 1; transform: translateY(0); transition-delay: .22s; }
+.frase.is-in .frase__author { opacity: 1; transform: translateY(0); transition-delay: .34s; }
+
+
+/* =====================================================================
+   RESPONSIVE — tablet / mobile
+   Se degradan con elegancia los efectos pesados.
+   ===================================================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .nav__menu { gap: 16px; }
+  .nav__menu a { font-size: 15px; }
+  .nav__logo  { width: 110px; }
+}
+
+/* Mobile: simplifica parallax, pin y scroll-jacking */
+@media (max-width: 720px) {
+  :root { --u: 1px; } /* en mobile usamos tamaños propios, no la escala 1440 */
+
+  /* --- Header --- */
+  .nav { padding: 14px 18px; flex-wrap: wrap; gap: 8px 14px; }
+  .nav__menu { flex-wrap: wrap; gap: 10px 14px; justify-content: flex-start; }
+  .nav__menu a { font-size: 14px; }
+  .nav__logo { width: 104px; }
+
+  /* --- Hero --- */
+  .hero { height: auto; min-height: 0; padding-bottom: 60px; }
+  .hero__content { padding-top: 120px; }
+  .hero__title { font-size: 13.5vw; }
+  .hero__subtitle { font-size: 17px; padding: 0 18px; }
+
+  /* La montaña pasa a flujo normal, debajo del texto (no lo pisa) */
+  .hero__layer--back { display: none; }
+  .hero__layer--front {
+    position: relative;
+    top: auto;
+    height: auto;
+    margin-top: 24px;
+  }
+  /* En mobile la montaña va en flujo: altura natural (no object-fit) */
+  .hero__img--front { width: 100%; height: auto; object-fit: fill; }
+
+  /* CTA centrado bajo la montaña */
+  .cta {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: -40px auto 0;
+    display: flex;
+    width: max-content;
+    font-size: 16px;
+    padding: 14px 26px;
+  }
+  .cta__arrow { height: 14px; }
+  .cta:hover .cta__arrow { width: 14px; }
+
+  .hero__fade { height: 120px; }
+
+  /* --- Nosotros: sin pin, texto siempre legible --- */
+  .nosotros__track { height: auto; }
+  .nosotros__sticky { position: static; height: auto; padding: 80px 0; }
+  .nosotros__text { font-size: 26px; line-height: 1.3; }
+  /* En mobile el texto se muestra ya en su color final */
+  .nosotros__text .word { color: var(--color-dark); }
+  .nosotros__text .word--accent { color: var(--color-accent); }
+
+  /* --- Datos: se apilan en vertical --- */
+  .datos { padding: 70px 20px; }
+  .datos__grid { grid-template-columns: 1fr; gap: 44px; }
+  .dato__num { font-size: 72px; }
+  .dato__caption { font-size: 16px; margin-top: 14px; }
+
+  /* --- Preparación: carrusel a scroll horizontal manual --- */
+  .prep { padding-top: 60px; }
+  .prep__header { padding: 0 18px; }
+  .prep__label { font-size: 16px; }
+  .prep__title { font-size: 11vw; }
+  .prep__subtitle { font-size: 16px; max-width: 100%; margin-bottom: 0; }
+
+  /* Conectores: no aplican en el scroll manual de mobile */
+  .connector { display: none; }
+
+  .prep__track { height: auto !important; }
+  .prep__sticky {
+    position: static;
+    height: auto;
+    overflow-x: auto;            /* scroll horizontal manual */
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding: 50px 0;
+  }
+  .prep__cards {
+    transform: none !important;  /* anula el translateX del JS */
+    gap: 40px;
+    padding: 0 24px;
+  }
+  .card {
+    width: 78vw;
+    scroll-snap-align: center;
+  }
+  .card__num   { font-size: 84px; }
+  .card__title { font-size: 30px; white-space: normal; }
+  .card__desc  { font-size: 17px; }
+
+  /* --- Cursos: cards apiladas, bajada siempre visible --- */
+  .cursos { padding: 70px 20px; }
+  .cursos__header { display: block; margin-bottom: 36px; }
+  .cursos__title { font-size: 12vw; }
+  .cursos__lead { font-size: 16px; max-width: 100%; margin-top: 18px; }
+  .cursos__grid { flex-direction: column; align-items: center; gap: 28px; }
+  .curso {
+    width: min(88vw, 380px);
+    height: auto;
+    aspect-ratio: 527.56 / 789.47;
+  }
+  /* En táctil no hay hover: la bajada se muestra siempre */
+  .curso__desc-wrap { max-height: none; }
+  .curso__desc { opacity: 1; }
+
+  /* --- Experiencias: scroll horizontal manual, sin pin --- */
+  .exp__track { height: auto; }
+  .exp__sticky { position: static; height: auto; overflow: visible; }
+  .exp__title { font-size: 11vw; padding: 50px 20px 0; }
+  .exp__stage { display: block; padding: 30px 0; }
+  .exp__bracket { display: none; }
+  .exp__nav { display: none; }     /* en mobile el carrusel se desplaza por scroll táctil */
+  .exp__strip {
+    transform: none !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 18px;
+    padding: 0 20px 30px;
+  }
+  .exp__item { scroll-snap-align: center; }
+  .exp__img,
+  .exp__item.is-active .exp__img {
+    width: 72vw; height: auto; aspect-ratio: 267 / 172; margin: 0;
+  }
+  /* Bajada siempre visible debajo de cada foto */
+  .exp__cap,
+  .exp__item.is-active .exp__cap {
+    position: static; opacity: 1; left: 0; width: auto;
+    margin-top: 10px; font-size: 15px;
+  }
+}
+
+/* Respeta usuarios que prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .frase__title,
+  .frase__line,
+  .frase__author {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+

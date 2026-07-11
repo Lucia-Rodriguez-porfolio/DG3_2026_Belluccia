@@ -73,746 +73,789 @@
     }
   }
 
+})(); // Fin de la función autoejecutable
 
-  /* ============================================
-     2. NAVEGACIÓN — scroll nav
-     ============================================ */
-  ScrollTrigger.create({
-    start: "top -80px",
-    onEnter: () => nav && nav.classList.add("nav--scrolled"),
-    onLeaveBack: () => nav && nav.classList.remove("nav--scrolled"),
-  });
 
-  // Auto-hide navbar al hacer scroll hacia abajo
-  let lastScroll = 0;
-  window.addEventListener("scroll", () => {
-    if (!nav) return;
-    const currentScroll = window.scrollY || document.documentElement.scrollTop;
-    if (currentScroll <= 80) {
-      nav.classList.remove("nav--hidden");
-      lastScroll = currentScroll;
-      return;
-    }
-    if (currentScroll > lastScroll && !nav.classList.contains("nav--hidden")) {
-      nav.classList.add("nav--hidden"); // Scroll down
-    } else if (currentScroll < lastScroll && nav.classList.contains("nav--hidden")) {
-      nav.classList.remove("nav--hidden"); // Scroll up
-    }
+
+/* ============================================
+   2. NAVEGACIÓN — scroll nav
+   ============================================ */
+ScrollTrigger.create({
+  start: "top -80px",
+  onEnter: () => nav && nav.classList.add("nav--scrolled"),
+  onLeaveBack: () => nav && nav.classList.remove("nav--scrolled"),
+});
+
+// Auto-hide navbar al hacer scroll hacia abajo
+let lastScroll = 0;
+window.addEventListener("scroll", () => {
+  if (!nav) return;
+  const currentScroll = window.scrollY || document.documentElement.scrollTop;
+  if (currentScroll <= 80) {
+    nav.classList.remove("nav--hidden");
     lastScroll = currentScroll;
+    return;
+  }
+  if (currentScroll > lastScroll && !nav.classList.contains("nav--hidden")) {
+    nav.classList.add("nav--hidden"); // Scroll down
+  } else if (currentScroll < lastScroll && nav.classList.contains("nav--hidden")) {
+    nav.classList.remove("nav--hidden"); // Scroll up
+  }
+  lastScroll = currentScroll;
+});
+
+// Burger menu (mobile) — controla #mobileMenuBtn / .apex-nav-links (index.html y detalle.html)
+const burger = document.getElementById("mobileMenuBtn");
+const navLinks = document.querySelector(".apex-nav-links");
+
+if (burger && navLinks) {
+  const closeMenu = () => {
+    navLinks.classList.remove("is-open");
+    burger.classList.remove("is-active");
+    burger.setAttribute("aria-expanded", "false");
+    burger.setAttribute("aria-label", "Abrir menú");
+    document.body.classList.remove("nav-open");
+  };
+
+  const openMenu = () => {
+    navLinks.classList.add("is-open");
+    burger.classList.add("is-active");
+    burger.setAttribute("aria-expanded", "true");
+    burger.setAttribute("aria-label", "Cerrar menú");
+    document.body.classList.add("nav-open");
+  };
+
+  burger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = navLinks.classList.contains("is-open");
+    isOpen ? closeMenu() : openMenu();
   });
 
-  // Burger menu (mobile)
-  const burger = document.getElementById("navBurger");
-  const navLinks = document.querySelector(".nav-links");
-  if (burger && navLinks) {
-    burger.addEventListener("click", () => {
-      const open = navLinks.style.display === "flex";
-      navLinks.style.display = open ? "none" : "flex";
-      navLinks.style.flexDirection = "column";
-      navLinks.style.position = "fixed";
-      navLinks.style.top = "70px";
-      navLinks.style.left = "0";
-      navLinks.style.right = "0";
-      navLinks.style.background = "rgba(8,8,16,0.97)";
-      navLinks.style.padding = "2rem";
-      navLinks.style.gap = "1.5rem";
-      navLinks.style.backdropFilter = "blur(12px)";
-      navLinks.style.zIndex = "99";
-    });
-  }
+  // Cerrar al tocar un link del menú
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  // Cerrar al tocar fuera del menú
+  document.addEventListener("click", (e) => {
+    if (
+      navLinks.classList.contains("is-open") &&
+      !navLinks.contains(e.target) &&
+      !burger.contains(e.target)
+    ) {
+      closeMenu();
+    }
+  });
+
+  // Cerrar con tecla Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // Cerrar el menú si la ventana pasa a tamaño desktop
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 860 && navLinks.classList.contains("is-open")) {
+      closeMenu();
+    }
+  });
+}
 
 
-  /* ============================================
-     3. HERO — ANIMACIÓN DE ENTRADA
-     ============================================ */
-  const heroTL = gsap.timeline({ delay: 0.3 });
+/* ============================================
+   3. HERO — ANIMACIÓN DE ENTRADA
+   ============================================ */
+const heroTL = gsap.timeline({ delay: 0.3 });
 
-  heroTL
-    .to("#heroEyebrow", {
+heroTL
+  .to("#heroEyebrow", {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: "power3.out",
+  })
+  .to(
+    ".hero-line",
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: "power3.out",
+    },
+    "-=0.3"
+  )
+  .to(
+    "#heroSub",
+    {
       opacity: 1,
       y: 0,
       duration: 0.8,
       ease: "power3.out",
-    })
-    .to(
-      ".hero-line",
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out",
-      },
-      "-=0.3"
-    )
-    .to(
-      "#heroSub",
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      },
-      "-=0.4"
-    )
-    .to(
-      ".hero-ctas",
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        ease: "power3.out",
-      },
-      "-=0.3"
-    )
-    .to(
-      ".hero-scroll-hint",
-      {
-        opacity: 0.5,
-        duration: 0.5,
-      },
-      "-=0.2"
-    );
-
-  // Inicializar estados ocultos del hero
-  gsap.set("#heroEyebrow", { opacity: 0, y: 20 });
-  gsap.set(".hero-line", { opacity: 0, y: 60 });
-  gsap.set("#heroSub", { opacity: 0, y: 20 });
-  gsap.set(".hero-ctas", { opacity: 0, y: 20 });
-  gsap.set(".hero-scroll-hint", { opacity: 0 });
-
-
-  /* ============================================
-     4. MANIFIESTO — reveal con scroll
-     ============================================ */
-  const textRevealEl = document.querySelector('.js-text-reveal');
-  if (textRevealEl) {
-    const text = textRevealEl.textContent.trim();
-    const words = text.split(/\s+/);
-    textRevealEl.innerHTML = '';
-    textRevealEl.setAttribute('aria-label', text);
-
-    words.forEach(word => {
-      const outerDiv = document.createElement('div');
-      outerDiv.className = 'overflow-hidden';
-      outerDiv.setAttribute('aria-hidden', 'true');
-      outerDiv.style.position = 'relative';
-      outerDiv.style.display = 'inline-block';
-      outerDiv.style.marginRight = '0.25em';
-      outerDiv.style.opacity = '0.2';
-      outerDiv.textContent = word;
-      textRevealEl.appendChild(outerDiv);
-    });
-
-    gsap.to(textRevealEl.querySelectorAll('.overflow-hidden'), {
-      scrollTrigger: {
-        trigger: ".section-manifiesto",
-        start: "top 60%",
-        end: "bottom 70%",
-        scrub: 1,
-      },
+    },
+    "-=0.4"
+  )
+  .to(
+    ".hero-ctas",
+    {
       opacity: 1,
-      stagger: 0.1,
-      ease: "none",
-    });
-  }
-
-  if (document.querySelector('.manifiesto-deco')) {
-    gsap.to(".manifiesto-deco", {
-      scrollTrigger: {
-        trigger: ".section-manifiesto",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-      },
-      x: "-30vw", // Movimiento suave de derecha a izquierda
-      ease: "none",
-    });
-  }
-
-
-  /* ============================================
-     5. PROCESO — pasos en cascada
-     ============================================ */
-  gsap.to(".proceso-step", {
-    scrollTrigger: {
-      trigger: ".section-proceso",
-      start: "top 70%",
-    },
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    stagger: 0.2,
-    ease: "power3.out",
-  });
-
-
-  /* ============================================
-     6. TRANSICIÓN — cambio de fondo dramático
-     ============================================ */
-  ScrollTrigger.create({
-    trigger: ".section-transicion",
-    start: "top center",
-    end: "bottom center",
-    onEnter: () => {
-      gsap.to(".section-transicion", {
-        background: "radial-gradient(ellipse at center, #0F1A00 0%, #080810 100%)",
-        duration: 0.6,
-      });
-    },
-    onLeave: () => {
-      gsap.to(".section-transicion", {
-        background: "var(--bg-deep)",
-        duration: 0.6,
-      });
-    },
-    onEnterBack: () => {
-      gsap.to(".section-transicion", {
-        background: "radial-gradient(ellipse at center, #0F1A00 0%, #080810 100%)",
-        duration: 0.6,
-      });
-    },
-    onLeaveBack: () => {
-      gsap.to(".section-transicion", {
-        background: "var(--bg-deep)",
-        duration: 0.6,
-      });
-    },
-  });
-
-  gsap.from(".transicion-text", {
-    scrollTrigger: {
-      trigger: ".section-transicion",
-      start: "top 75%",
-    },
-    opacity: 0,
-    scale: 0.85,
-    duration: 1.2,
-    ease: "power4.out",
-  });
-
-
-  /* ============================================
-     7. SLIDER BEFORE / AFTER
-     ============================================ */
-  const sliderContainer = document.getElementById("beforeAfterSlider");
-  const sliderAfter = document.getElementById("sliderAfter");
-  const sliderHandle = document.getElementById("sliderHandle");
-
-  if (sliderContainer && sliderAfter && sliderHandle) {
-    let isDragging = false;
-    let isVertical = window.innerWidth <= 767;
-    let sliderPercent = 50;
-
-    function updateSlider(percent) {
-      sliderPercent = Math.max(5, Math.min(95, percent));
-      if (isVertical) {
-        sliderAfter.style.clipPath = `inset(${sliderPercent}% 0 0 0)`;
-        gsap.set(sliderHandle, { top: `${sliderPercent}%`, left: "50%", xPercent: -50, yPercent: -50 });
-      } else {
-        sliderAfter.style.clipPath = `inset(0 ${100 - sliderPercent}% 0 0)`;
-        gsap.set(sliderHandle, { left: `${sliderPercent}%`, top: "50%", xPercent: -50, yPercent: -50 });
-      }
-    }
-
-    function getPercent(e) {
-      const rect = sliderContainer.getBoundingClientRect();
-      if (isVertical) {
-        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-        return ((clientY - rect.top) / rect.height) * 100;
-      } else {
-        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-        return ((clientX - rect.left) / rect.width) * 100;
-      }
-    }
-
-    // Mouse
-    sliderContainer.addEventListener("mousedown", (e) => {
-      isDragging = true;
-      updateSlider(getPercent(e));
-    });
-    document.addEventListener("mousemove", (e) => {
-      if (isDragging) updateSlider(getPercent(e));
-    });
-    document.addEventListener("mouseup", () => { isDragging = false; });
-
-    // Touch
-    sliderContainer.addEventListener("touchstart", (e) => {
-      isDragging = true;
-      e.preventDefault();
-    }, { passive: false });
-    document.addEventListener("touchmove", (e) => {
-      if (isDragging) {
-        e.preventDefault();
-        updateSlider(getPercent(e));
-      }
-    }, { passive: false });
-    document.addEventListener("touchend", () => { isDragging = false; });
-
-    // Responsive
-    window.addEventListener("resize", () => {
-      isVertical = window.innerWidth <= 767;
-      updateSlider(sliderPercent);
-    });
-
-    // Inicializar
-    updateSlider(50);
-
-    // Animación de entrada
-    gsap.from(sliderContainer, {
-      scrollTrigger: {
-        trigger: ".section-restauracion",
-        start: "top 70%",
-      },
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: "power3.out",
-    });
-  }
-
-
-  /* ============================================
-     8. ANATOMÍA — columnas
-     ============================================ */
-  gsap.to(".anatomia-col", {
-    scrollTrigger: {
-      trigger: ".section-anatomia",
-      start: "top 70%",
-    },
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    stagger: 0.15,
-    ease: "power3.out",
-  });
-
-
-  /* ============================================
-     9. COUNTDOWN CÁPSULA
-     ============================================ */
-  function initCountdown() {
-    const target = new Date();
-    target.setDate(target.getDate() + 47); // 47 días al lanzamiento
-    target.setHours(0, 0, 0, 0);
-
-    const elDays = document.getElementById("cdDays");
-    const elHours = document.getElementById("cdHours");
-    const elMins = document.getElementById("cdMins");
-
-    if (!elDays) return;
-
-    function update() {
-      const now = new Date();
-      const diff = target - now;
-
-      if (diff <= 0) {
-        elDays.textContent = "00";
-        elHours.textContent = "00";
-        elMins.textContent = "00";
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-      elDays.textContent = String(days).padStart(2, "0");
-      elHours.textContent = String(hours).padStart(2, "0");
-      elMins.textContent = String(mins).padStart(2, "0");
-    }
-
-    update();
-    setInterval(update, 30000);
-  }
-  initCountdown();
-
-  // Animación teaser
-  gsap.from(".teaser-content > *", {
-    scrollTrigger: {
-      trigger: ".section-capsula-teaser",
-      start: "top 70%",
-    },
-    opacity: 0,
-    y: 40,
-    duration: 0.8,
-    stagger: 0.1,
-    ease: "power3.out",
-  });
-
-
-  /* ============================================
-     10. GALERÍA PARALAJE
-     ============================================ */
-  document.querySelectorAll(".galeria-item").forEach((item) => {
-    const speed = parseFloat(item.dataset.speed) || 0.3;
-    gsap.to(item.querySelector("img"), {
-      scrollTrigger: {
-        trigger: item,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      },
-      y: `${speed * 80}px`,
-      ease: "none",
-    });
-  });
-
-  gsap.from(".galeria-item", {
-    scrollTrigger: {
-      trigger: ".section-galeria",
-      start: "top 70%",
-    },
-    opacity: 0,
-    scale: 0.9,
-    duration: 0.8,
-    stagger: 0.1,
-    ease: "power3.out",
-  });
-
-
-  /* ============================================
-     11. CONTADORES ANIMADOS (verde + restauración)
-     ============================================ */
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target, 10);
-    if (isNaN(target)) return;
-
-    gsap.fromTo(
-      el,
-      { innerText: 0 },
-      {
-        innerText: target,
-        duration: 2,
-        ease: "power2.out",
-        snap: { innerText: 1 },
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          once: true,
-        },
-        onUpdate: function () {
-          el.innerText = Math.round(this.targets()[0].innerText).toLocaleString("es-AR");
-        },
-      }
-    );
-  }
-
-  // 1. Animar los contadores de números
-  document.querySelectorAll(".verde-num, .stat-num").forEach((el) => {
-    animateCounter(el);
-  });
-
-  // 2. Animar opacidad y posición de las tarjetas verde-stat (animación general de la página)
-  const verdeStats = document.querySelectorAll(".verde-stat");
-  if (verdeStats.length) {
-    gsap.from(verdeStats, {
-      scrollTrigger: {
-        trigger: ".section-verde",
-        start: "top 75%",
-        toggleActions: "play none none reverse",
-      },
-      opacity: 0,
-      y: 60,
-      duration: 1.2,
-      stagger: 0.25,
-      ease: "power4.out",
-    });
-  }
-
-
-  /* ============================================
-     12. BENTO GRID — stagger desde el centro
-     ============================================ */
-  const bentoCells = document.querySelectorAll(".bento-cell");
-  if (bentoCells.length) {
-    gsap.to(bentoCells, {
-      scrollTrigger: {
-        trigger: "#bentoGrid",
-        start: "top 75%",
-      },
-      opacity: 1,
-      scale: 1,
+      y: 0,
       duration: 0.7,
-      stagger: {
-        each: 0.1,
-        from: "center",
-        ease: "power2.inOut",
-      },
       ease: "power3.out",
-    });
-  }
-
-
-  /* ============================================
-     13. TESTIMONIOS — CARRUSEL
-     ============================================ */
-  const track = document.getElementById("testTrack");
-  const dots = document.querySelectorAll(".test-dot");
-  const cards = document.querySelectorAll(".test-card");
-  const prevBtn = document.getElementById("testPrev");
-  const nextBtn = document.getElementById("testNext");
-
-  if (track && cards.length) {
-    let current = 0;
-
-    function goTo(idx) {
-      current = (idx + cards.length) % cards.length;
-
-      cards.forEach((c, i) => c.classList.toggle("active", i === current));
-      dots.forEach((d, i) => d.classList.toggle("active", i === current));
-
-      gsap.to(track, {
-        x: `-${current * (100 / cards.length)}%`,
-        duration: 0.7,
-        ease: "power3.inOut",
-      });
-    }
-
-    // Configurar track para slide
-    gsap.set(track, { display: "flex", width: `${cards.length * 100}%`, x: 0, overflow: "visible" });
-    cards.forEach((c) => { c.style.flex = `0 0 ${100 / cards.length}%`; });
-    cards[0].classList.add("active");
-
-    prevBtn && prevBtn.addEventListener("click", () => goTo(current - 1));
-    nextBtn && nextBtn.addEventListener("click", () => goTo(current + 1));
-    dots.forEach((d) => d.addEventListener("click", () => goTo(parseInt(d.dataset.idx, 10))));
-
-    // Auto-avance
-    let autoTimer = setInterval(() => goTo(current + 1), 6000);
-    track.addEventListener("mouseenter", () => clearInterval(autoTimer));
-    track.addEventListener("mouseleave", () => {
-      autoTimer = setInterval(() => goTo(current + 1), 6000);
-    });
-  }
-
-
-  /* ============================================
-     14. FORMULARIOS — feedback visual
-     ============================================ */
-  function handleForm(formId, successMsg) {
-    const form = document.getElementById(formId);
-    if (!form) return;
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const btn = form.querySelector("button[type=submit]");
-      const original = btn.textContent;
-
-      btn.textContent = "✓ Enviado";
-      btn.style.background = "#C8FF00";
-      btn.style.color = "#080810";
-      btn.disabled = true;
-
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.style.background = "";
-        btn.style.color = "";
-        btn.disabled = false;
-        form.reset();
-      }, 3500);
-    });
-  }
-
-  handleForm("footerForm", "¡Gracias! Te contactamos pronto.");
-  handleForm("teaserForm", "¡Anotado para acceso anticipado!");
-
-
-  /* ============================================
-     15. REVEAL SECCIONES GENERALES
-     ============================================ */
-  // Títulos de secciones
-  gsap.utils.toArray(".section-title").forEach((el) => {
-    if (el.closest(".section-hero")) return; // Hero ya tiene su propia animación
-    gsap.from(el, {
-      scrollTrigger: {
-        trigger: el,
-        start: "top 80%",
-        once: true,
-      },
-      opacity: 0,
-      y: 40,
-      duration: 0.9,
-      ease: "power3.out",
-    });
-  });
-
-  // Verde micro-copy
-  gsap.from(".verde-micro", {
-    scrollTrigger: {
-      trigger: ".verde-micro",
-      start: "top 85%",
     },
-    opacity: 0,
-    y: 20,
-    duration: 0.8,
-    ease: "power3.out",
+    "-=0.3"
+  )
+  .to(
+    ".hero-scroll-hint",
+    {
+      opacity: 0.5,
+      duration: 0.5,
+    },
+    "-=0.2"
+  );
+
+// Inicializar estados ocultos del hero
+gsap.set("#heroEyebrow", { opacity: 0, y: 20 });
+gsap.set(".hero-line", { opacity: 0, y: 60 });
+gsap.set("#heroSub", { opacity: 0, y: 20 });
+gsap.set(".hero-ctas", { opacity: 0, y: 20 });
+gsap.set(".hero-scroll-hint", { opacity: 0 });
+
+
+/* ============================================
+   4. MANIFIESTO — reveal con scroll
+   ============================================ */
+const textRevealEl = document.querySelector('.js-text-reveal');
+if (textRevealEl) {
+  const text = textRevealEl.textContent.trim();
+  const words = text.split(/\s+/);
+  textRevealEl.innerHTML = '';
+  textRevealEl.setAttribute('aria-label', text);
+
+  words.forEach(word => {
+    const outerDiv = document.createElement('div');
+    outerDiv.className = 'overflow-hidden';
+    outerDiv.setAttribute('aria-hidden', 'true');
+    outerDiv.style.position = 'relative';
+    outerDiv.style.display = 'inline-block';
+    outerDiv.style.marginRight = '0.25em';
+    outerDiv.style.opacity = '0.2';
+    outerDiv.textContent = word;
+    textRevealEl.appendChild(outerDiv);
   });
 
-  // Footer
-  gsap.from(".footer-title", {
+  gsap.to(textRevealEl.querySelectorAll('.overflow-hidden'), {
     scrollTrigger: {
-      trigger: ".section-footer",
-      start: "top 75%",
+      trigger: ".section-manifiesto",
+      start: "top 60%",
+      end: "bottom 70%",
+      scrub: 1,
+    },
+    opacity: 1,
+    stagger: 0.1,
+    ease: "none",
+  });
+}
+
+if (document.querySelector('.manifiesto-deco')) {
+  gsap.to(".manifiesto-deco", {
+    scrollTrigger: {
+      trigger: ".section-manifiesto",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+    },
+    x: "-30vw", // Movimiento suave de derecha a izquierda
+    ease: "none",
+  });
+}
+
+
+/* ============================================
+   5. PROCESO — pasos en cascada
+   ============================================ */
+gsap.to(".proceso-step", {
+  scrollTrigger: {
+    trigger: ".section-proceso",
+    start: "top 70%",
+  },
+  opacity: 1,
+  y: 0,
+  duration: 0.8,
+  stagger: 0.2,
+  ease: "power3.out",
+});
+
+
+/* ============================================
+   6. TRANSICIÓN — cambio de fondo dramático
+   ============================================ */
+
+
+
+ScrollTrigger.create({
+  trigger: ".section-transicion",
+  start: "top center",
+  end: "bottom center",
+  onEnter: () => {
+    gsap.to(".section-transicion", {
+      background: "radial-gradient(ellipse at center, #0F1A00 0%, #080810 100%)",
+      duration: 0.6,
+    });
+  },
+  onLeave: () => {
+    gsap.to(".section-transicion", {
+      background: "var(--bg-deep)",
+      duration: 0.6,
+    });
+  },
+  onEnterBack: () => {
+    gsap.to(".section-transicion", {
+      background: "radial-gradient(ellipse at center, #0F1A00 0%, #080810 100%)",
+      duration: 0.6,
+    });
+  },
+  onLeaveBack: () => {
+    gsap.to(".section-transicion", {
+      background: "var(--bg-deep)",
+      duration: 0.6,
+    });
+  },
+});
+
+gsap.from(".transicion-text", {
+  scrollTrigger: {
+    trigger: ".section-transicion",
+    start: "top 75%",
+  },
+  opacity: 0,
+  scale: 0.85,
+  duration: 1.2,
+  ease: "power4.out",
+});
+
+
+/* ============================================
+   7. SLIDER BEFORE / AFTER
+   ============================================ */
+const sliderContainer = document.getElementById("beforeAfterSlider");
+const sliderAfter = document.getElementById("sliderAfter");
+const sliderHandle = document.getElementById("sliderHandle");
+
+if (sliderContainer && sliderAfter && sliderHandle) {
+  let isDragging = false;
+  let isVertical = window.innerWidth <= 767;
+  let sliderPercent = 50;
+
+  function updateSlider(percent) {
+    sliderPercent = Math.max(5, Math.min(95, percent));
+    if (isVertical) {
+      sliderAfter.style.clipPath = `inset(${sliderPercent}% 0 0 0)`;
+      gsap.set(sliderHandle, { top: `${sliderPercent}%`, left: "50%", xPercent: -50, yPercent: -50 });
+    } else {
+      sliderAfter.style.clipPath = `inset(0 ${100 - sliderPercent}% 0 0)`;
+      gsap.set(sliderHandle, { left: `${sliderPercent}%`, top: "50%", xPercent: -50, yPercent: -50 });
+    }
+  }
+
+  function getPercent(e) {
+    const rect = sliderContainer.getBoundingClientRect();
+    if (isVertical) {
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return ((clientY - rect.top) / rect.height) * 100;
+    } else {
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      return ((clientX - rect.left) / rect.width) * 100;
+    }
+  }
+
+  // Mouse
+  sliderContainer.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    updateSlider(getPercent(e));
+  });
+  document.addEventListener("mousemove", (e) => {
+    if (isDragging) updateSlider(getPercent(e));
+  });
+  document.addEventListener("mouseup", () => { isDragging = false; });
+
+  // Touch
+  sliderContainer.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    e.preventDefault();
+  }, { passive: false });
+  document.addEventListener("touchmove", (e) => {
+    if (isDragging) {
+      e.preventDefault();
+      updateSlider(getPercent(e));
+    }
+  }, { passive: false });
+  document.addEventListener("touchend", () => { isDragging = false; });
+
+  // Responsive
+  window.addEventListener("resize", () => {
+    isVertical = window.innerWidth <= 767;
+    updateSlider(sliderPercent);
+  });
+
+  // Inicializar
+  updateSlider(50);
+
+  // Animación de entrada
+  gsap.from(sliderContainer, {
+    scrollTrigger: {
+      trigger: ".section-restauracion",
+      start: "top 70%",
     },
     opacity: 0,
     y: 50,
     duration: 1,
     ease: "power3.out",
   });
+}
 
-  gsap.from(".footer-right", {
+
+/* ============================================
+   8. ANATOMÍA — columnas
+   ============================================ */
+gsap.to(".anatomia-col", {
+  scrollTrigger: {
+    trigger: ".section-anatomia",
+    start: "top 70%",
+  },
+  opacity: 1,
+  y: 0,
+  duration: 0.8,
+  stagger: 0.15,
+  ease: "power3.out",
+});
+
+
+/* ============================================
+   9. COUNTDOWN CÁPSULA
+   ============================================ */
+function initCountdown() {
+  const target = new Date();
+  target.setDate(target.getDate() + 47); // 47 días al lanzamiento
+  target.setHours(0, 0, 0, 0);
+
+  const elDays = document.getElementById("cdDays");
+  const elHours = document.getElementById("cdHours");
+  const elMins = document.getElementById("cdMins");
+
+  if (!elDays) return;
+
+  function update() {
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      elDays.textContent = "00";
+      elHours.textContent = "00";
+      elMins.textContent = "00";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    elDays.textContent = String(days).padStart(2, "0");
+    elHours.textContent = String(hours).padStart(2, "0");
+    elMins.textContent = String(mins).padStart(2, "0");
+  }
+
+  update();
+  setInterval(update, 30000);
+}
+initCountdown();
+
+// Animación teaser
+gsap.from(".teaser-content > *", {
+  scrollTrigger: {
+    trigger: ".section-capsula-teaser",
+    start: "top 70%",
+  },
+  opacity: 0,
+  y: 40,
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power3.out",
+});
+
+
+/* ============================================
+   10. GALERÍA PARALAJE
+   ============================================ */
+document.querySelectorAll(".galeria-item").forEach((item) => {
+  const speed = parseFloat(item.dataset.speed) || 0.3;
+  gsap.to(item.querySelector("img"), {
     scrollTrigger: {
-      trigger: ".section-footer",
-      start: "top 70%",
-    },
-    opacity: 0,
-    x: 40,
-    duration: 1,
-    delay: 0.2,
-    ease: "power3.out",
-  });
-
-
-  /* ============================================
-     16. PARALLAX SUAVE — Hero & Restauración
-     ============================================ */
-  gsap.to(".hero-bg-video", {
-    scrollTrigger: {
-      trigger: ".section-hero",
-      start: "top top",
-      end: "bottom top",
-      scrub: true,
-    },
-    y: "30%",
-    ease: "none",
-  });
-
-  gsap.to(".restauracion-bg-img", {
-    scrollTrigger: {
-      trigger: ".section-restauracion",
+      trigger: item,
       start: "top bottom",
       end: "bottom top",
       scrub: true,
     },
-    y: "20%",
+    y: `${speed * 80}px`,
     ease: "none",
   });
+});
+
+gsap.from(".galeria-item", {
+  scrollTrigger: {
+    trigger: ".section-galeria",
+    start: "top 70%",
+  },
+  opacity: 0,
+  scale: 0.9,
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power3.out",
+});
 
 
-  /* ============================================
-     17. SCROLL SUAVE — ANCLAS DE NAVEGACIÓN
-     ============================================ */
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", (e) => {
-      const target = document.querySelector(anchor.getAttribute("href"));
-      if (target) {
-        e.preventDefault();
-        const offset = 80;
-        const top = target.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: "smooth" });
+/* ============================================
+   11. CONTADORES ANIMADOS (verde + restauración)
+   ============================================ */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target, 10);
+  if (isNaN(target)) return;
 
-        // Cerrar menu mobile si está abierto
-        if (navLinks && navLinks.style.display === "flex") {
-          navLinks.style.display = "none";
-        }
-      }
-    });
+  gsap.fromTo(
+    el,
+    { innerText: 0 },
+    {
+      innerText: target,
+      duration: 2,
+      ease: "power2.out",
+      snap: { innerText: 1 },
+      scrollTrigger: {
+        trigger: el,
+        start: "top 85%",
+        once: true,
+      },
+      onUpdate: function () {
+        el.innerText = Math.round(this.targets()[0].innerText).toLocaleString("es-AR");
+      },
+    }
+  );
+}
+
+// 1. Animar los contadores de números
+document.querySelectorAll(".verde-num, .stat-num").forEach((el) => {
+  animateCounter(el);
+});
+
+// 2. Animar opacidad y posición de las tarjetas verde-stat (animación general de la página)
+const verdeStats = document.querySelectorAll(".verde-stat");
+if (verdeStats.length) {
+  gsap.from(verdeStats, {
+    scrollTrigger: {
+      trigger: ".section-verde",
+      start: "top 75%",
+      toggleActions: "play none none reverse",
+    },
+    opacity: 0,
+    y: 60,
+    duration: 1.2,
+    stagger: 0.25,
+    ease: "power4.out",
   });
+}
 
-  /* ============================================
-     18. SWIPER CARDS (ANATOMÍA)
-     ============================================ */
-  if (document.querySelector(".anatomia-swiper")) {
-    new Swiper(".anatomia-swiper", {
-      effect: "coverflow",
-      grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: "auto",
-      initialSlide: 1,
-      coverflowEffect: {
-        rotate: 0,
-        stretch: 50,
-        depth: 200,
-        modifier: 1,
-        slideShadows: false,
-        scale: 0.85,
-      },
-      loop: true,
-      loopedSlides: 3,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: ".nav-next",
-        prevEl: ".nav-prev",
-      },
-      pagination: {
-        el: ".slider_pagination",
-        type: "progressbar",
-      },
+
+/* ============================================
+   12. BENTO GRID — stagger desde el centro
+   ============================================ */
+const bentoCells = document.querySelectorAll(".bento-cell");
+if (bentoCells.length) {
+  gsap.to(bentoCells, {
+    scrollTrigger: {
+      trigger: "#bentoGrid",
+      start: "top 75%",
+    },
+    opacity: 1,
+    scale: 1,
+    duration: 0.7,
+    stagger: {
+      each: 0.1,
+      from: "center",
+      ease: "power2.inOut",
+    },
+    ease: "power3.out",
+  });
+}
+
+
+/* ============================================
+   13. TESTIMONIOS — CARRUSEL
+   ============================================ */
+const track = document.getElementById("testTrack");
+const dots = document.querySelectorAll(".test-dot");
+const cards = document.querySelectorAll(".test-card");
+const prevBtn = document.getElementById("testPrev");
+const nextBtn = document.getElementById("testNext");
+
+if (track && cards.length) {
+  let current = 0;
+
+  function goTo(idx) {
+    current = (idx + cards.length) % cards.length;
+
+    cards.forEach((c, i) => c.classList.toggle("active", i === current));
+    dots.forEach((d, i) => d.classList.toggle("active", i === current));
+
+    gsap.to(track, {
+      x: `-${current * (100 / cards.length)}%`,
+      duration: 0.7,
+      ease: "power3.inOut",
     });
   }
 
-  /* ============================================
-     19. CARD GLOW EFFECT
-     ============================================ */
-  const newsCards = document.querySelectorAll(".news_card_component");
-  newsCards.forEach(card => {
-    const glow = card.querySelector(".card-glow");
-    if (!glow) return;
+  // Configurar track para slide
+  gsap.set(track, { display: "flex", width: `${cards.length * 100}%`, x: 0, overflow: "visible" });
+  cards.forEach((c) => { c.style.flex = `0 0 ${100 / cards.length}%`; });
+  cards[0].classList.add("active");
 
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
+  prevBtn && prevBtn.addEventListener("click", () => goTo(current - 1));
+  nextBtn && nextBtn.addEventListener("click", () => goTo(current + 1));
+  dots.forEach((d) => d.addEventListener("click", () => goTo(parseInt(d.dataset.idx, 10))));
 
-      glow.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(32, 231, 183, 0.4) 0%, rgba(32, 231, 183, 0.12) 50%, transparent 70%)`;
-    });
+  // Auto-avance
+  let autoTimer = setInterval(() => goTo(current + 1), 6000);
+  track.addEventListener("mouseenter", () => clearInterval(autoTimer));
+  track.addEventListener("mouseleave", () => {
+    autoTimer = setInterval(() => goTo(current + 1), 6000);
   });
+}
 
-  /* ============================================
-     20. BG SWIPER (RESTAURACIÓN)
-     ============================================ */
-  if (document.querySelector(".bg-swiper")) {
-    const bgSwiper = new Swiper(".bg-swiper", {
-      effect: "fade",
-      fadeEffect: {
-        crossFade: true
-      },
-      speed: 800,
-      loop: true,
-      navigation: {
-        nextEl: "#bg-next",
-        prevEl: "#bg-prev",
-      },
-      on: {
-        init: function () {
-          updateProgress(this);
-        },
-        slideChange: function () {
-          updateProgress(this);
-        }
-      }
-    });
 
-    function updateProgress(swiper) {
-      const progressBar = document.getElementById("bg-progress");
-      if (progressBar) {
-        // Calculate progress percentage based on current slide
-        const totalSlides = swiper.slides.length;
-        const currentSlide = swiper.realIndex + 1;
+/* ============================================
+   14. FORMULARIOS — feedback visual
+   ============================================ */
+function handleForm(formId, successMsg) {
+  const form = document.getElementById(formId);
+  if (!form) return;
 
-        // Progress goes from -100% to 0% (translating)
-        const percent = ((currentSlide / totalSlides) * 100) - 100;
-        progressBar.style.transform = `translate3d(${percent}%, 0px, 0px)`;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const btn = form.querySelector("button[type=submit]");
+    const original = btn.textContent;
+
+    btn.textContent = "✓ Enviado";
+    btn.style.background = "#C8FF00";
+    btn.style.color = "#080810";
+    btn.disabled = true;
+
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.style.background = "";
+      btn.style.color = "";
+      btn.disabled = false;
+      form.reset();
+    }, 3500);
+  });
+}
+
+handleForm("footerForm", "¡Gracias! Te contactamos pronto.");
+handleForm("teaserForm", "¡Anotado para acceso anticipado!");
+
+
+/* ============================================
+   15. REVEAL SECCIONES GENERALES
+   ============================================ */
+// Títulos de secciones
+gsap.utils.toArray(".section-title").forEach((el) => {
+  if (el.closest(".section-hero")) return; // Hero ya tiene su propia animación
+  gsap.from(el, {
+    scrollTrigger: {
+      trigger: el,
+      start: "top 80%",
+      once: true,
+    },
+    opacity: 0,
+    y: 40,
+    duration: 0.9,
+    ease: "power3.out",
+  });
+});
+
+// Verde micro-copy
+gsap.from(".verde-micro", {
+  scrollTrigger: {
+    trigger: ".verde-micro",
+    start: "top 85%",
+  },
+  opacity: 0,
+  y: 20,
+  duration: 0.8,
+  ease: "power3.out",
+});
+
+// Footer
+gsap.from(".footer-title", {
+  scrollTrigger: {
+    trigger: ".section-footer",
+    start: "top 75%",
+  },
+  opacity: 0,
+  y: 50,
+  duration: 1,
+  ease: "power3.out",
+});
+
+gsap.from(".footer-right", {
+  scrollTrigger: {
+    trigger: ".section-footer",
+    start: "top 70%",
+  },
+  opacity: 0,
+  x: 40,
+  duration: 1,
+  delay: 0.2,
+  ease: "power3.out",
+});
+
+
+/* ============================================
+   16. PARALLAX SUAVE — Hero & Restauración
+   ============================================ */
+gsap.to(".hero-bg-video", {
+  scrollTrigger: {
+    trigger: ".section-hero",
+    start: "top top",
+    end: "bottom top",
+    scrub: true,
+  },
+  y: "30%",
+  ease: "none",
+});
+
+gsap.to(".restauracion-bg-img", {
+  scrollTrigger: {
+    trigger: ".section-restauracion",
+    start: "top bottom",
+    end: "bottom top",
+    scrub: true,
+  },
+  y: "20%",
+  ease: "none",
+});
+
+
+/* ============================================
+   17. SCROLL SUAVE — ANCLAS DE NAVEGACIÓN
+   ============================================ */
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", (e) => {
+    const target = document.querySelector(anchor.getAttribute("href"));
+    if (target) {
+      e.preventDefault();
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+
+      // Cerrar menu mobile si está abierto
+      if (navLinks && navLinks.style.display === "flex") {
+        navLinks.style.display = "none";
       }
     }
-  }
+  });
+});
 
-  // ---- EFECTO PARALLAX FLOTANTE MUEBLES CÁPSULA (JS NATIVO) ----
+/* ============================================
+   18. SWIPER CARDS (ANATOMÍA)
+   ============================================ */
+if (document.querySelector(".anatomia-swiper")) {
+  new Swiper(".anatomia-swiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    initialSlide: 1,
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 50,
+      depth: 200,
+      modifier: 1,
+      slideShadows: false,
+      scale: 0.85,
+    },
+    loop: true,
+    loopedSlides: 3,
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      nextEl: ".nav-next",
+      prevEl: ".nav-prev",
+    },
+    pagination: {
+      el: ".slider_pagination",
+      type: "progressbar",
+    },
+  });
+}
+
+/* ============================================
+   19. CARD GLOW EFFECT
+   ============================================ */
+const newsCards = document.querySelectorAll(".news_card_component");
+newsCards.forEach(card => {
+  const glow = card.querySelector(".card-glow");
+  if (!glow) return;
+
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    glow.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(32, 231, 183, 0.4) 0%, rgba(32, 231, 183, 0.12) 50%, transparent 70%)`;
+  });
+});
+
+/* ============================================
+   20. BG SWIPER (RESTAURACIÓN)
+   ============================================ */
+if (document.querySelector(".bg-swiper")) {
+  const bgSwiper = new Swiper(".bg-swiper", {
+    effect: "fade",
+    fadeEffect: {
+      crossFade: true
+    },
+    speed: 800,
+    loop: true,
+    navigation: {
+      nextEl: "#bg-next",
+      prevEl: "#bg-prev",
+    },
+    on: {
+      init: function () {
+        updateProgress(this);
+      },
+      slideChange: function () {
+        updateProgress(this);
+      }
+    }
+  });
+
+  function updateProgress(swiper) {
+    const progressBar = document.getElementById("bg-progress");
+    if (progressBar) {
+      // Calculate progress percentage based on current slide
+      const totalSlides = swiper.slides.length;
+      const currentSlide = swiper.realIndex + 1;
+
+      // Progress goes from -100% to 0% (translating)
+      const percent = ((currentSlide / totalSlides) * 100) - 100;
+      progressBar.style.transform = `translate3d(${percent}%, 0px, 0px)`;
+    }
+  }
+}
+
+// ---- EFECTO PARALLAX FLOTANTE MUEBLES CÁPSULA (JS NATIVO) ----
+(() => {
   const capsulaSection = document.getElementById("capsula");
   if (capsulaSection) {
     const items = capsulaSection.querySelectorAll(".c-element-overviewgrid > .overview-item:not(.bento-header-wrapper):not(.infinity-item--skip)");
@@ -860,7 +903,6 @@
 
     animateParallax();
   }
-
 })();
 
 // Mobile Capsula Loop Carousel
@@ -868,35 +910,35 @@ function initMobileCapsulaCarousel() {
   if (window.innerWidth <= 768) {
     const grid = document.querySelector("#capsula .c-element-overviewgrid");
     if (!grid || grid.classList.contains("carousel-initialized")) return;
-    
+
     // Extract bento header and place it before the grid
     const bentoHeader = grid.querySelector(".bento-header-wrapper");
     if (bentoHeader) {
       grid.parentNode.insertBefore(bentoHeader, grid);
     }
-    
+
     // Get all image items
     const items = Array.from(grid.querySelectorAll(".overview-item:not(.bento-header-wrapper):not(.infinity-item--skip)"));
-    
+
     // Clear skip items from DOM
     grid.querySelectorAll(".infinity-item--skip").forEach(el => el.remove());
-    
+
     // Create track
     const track = document.createElement("div");
     track.className = "capsula-carousel-track";
-    
+
     // Append items to track
     items.forEach(item => {
       track.appendChild(item);
     });
-    
+
     // Clone items for seamless loop
     items.forEach(item => {
       const clone = item.cloneNode(true);
       clone.classList.add("carousel-clone");
       track.appendChild(clone);
     });
-    
+
     grid.innerHTML = "";
     grid.appendChild(track);
     grid.classList.add("carousel-initialized");
@@ -904,3 +946,413 @@ function initMobileCapsulaCarousel() {
 }
 window.addEventListener("DOMContentLoaded", initMobileCapsulaCarousel);
 window.addEventListener("resize", initMobileCapsulaCarousel);
+
+/* ============================================
+   HOTSPOTS INTERACTIVOS (PÁGINA DETALLE)
+   Puntos clicables sobre la imagen de herramientas
+   ============================================ */
+(function () {
+  const scene = document.getElementById("hotspotScene");
+  if (!scene) return;
+
+  const popup = document.getElementById("hsPopup");
+  const popupTitle = document.getElementById("hsPopupTitle");
+  const popupDesc = document.getElementById("hsPopupDesc");
+  const popupClose = document.getElementById("hsPopupClose");
+  const dots = scene.querySelectorAll(".hs-dot");
+
+  if (!popup || !popupTitle || !popupDesc) return;
+
+  function isMobile() {
+    return window.innerWidth <= 640;
+  }
+
+  function positionPopup(dot) {
+    if (isMobile()) {
+      // En mobile el popup se muestra como hoja fija inferior (ver CSS)
+      popup.style.left = "";
+      popup.style.top = "";
+      return;
+    }
+    const sceneRect = scene.getBoundingClientRect();
+    const dotRect = dot.getBoundingClientRect();
+
+    let left = dotRect.left - sceneRect.left + dotRect.width / 2 - 130;
+    let top = dotRect.top - sceneRect.top + dotRect.height + 14;
+
+    const maxLeft = Math.max(sceneRect.width - 272, 12);
+    left = Math.min(Math.max(left, 12), maxLeft);
+
+    const maxTop = Math.max(sceneRect.height - 40, 12);
+    top = Math.min(top, maxTop);
+
+    popup.style.left = left + "px";
+    popup.style.top = top + "px";
+  }
+
+  function openPopup(dot) {
+    popupTitle.textContent = dot.dataset.title || "";
+    popupDesc.textContent = dot.dataset.desc || "";
+    popup.dataset.activeDot = dot.dataset.title || "";
+    positionPopup(dot);
+    popup.classList.add("is-visible");
+    popup.setAttribute("aria-hidden", "false");
+  }
+
+  function closePopup() {
+    popup.classList.remove("is-visible");
+    popup.setAttribute("aria-hidden", "true");
+    popup.dataset.activeDot = "";
+  }
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const alreadyOpen =
+        popup.classList.contains("is-visible") &&
+        popup.dataset.activeDot === (dot.dataset.title || "");
+      alreadyOpen ? closePopup() : openPopup(dot);
+    });
+  });
+
+  if (popupClose) {
+    popupClose.addEventListener("click", closePopup);
+  }
+
+  document.addEventListener("click", (e) => {
+    if (popup.classList.contains("is-visible") && !popup.contains(e.target)) {
+      closePopup();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closePopup();
+  });
+
+  window.addEventListener("resize", () => {
+    if (popup.classList.contains("is-visible")) closePopup();
+  });
+  /* ============================================
+     20. ANIMACIÓN CRYXO-LIKE PARA SECCIÓN 5
+     ============================================ */
+  const sectionProceso = document.getElementById("proceso");
+  if (sectionProceso) {
+    // 1. Animación de los textos (intro-text)
+    const introTexts = sectionProceso.querySelectorAll(".intro-text");
+    introTexts.forEach((textBlock) => {
+      const title = textBlock.querySelector(".section-title");
+      const p = textBlock.querySelector("p");
+
+      // Set inicial
+      gsap.set(title, { opacity: 0, y: 50 });
+      gsap.set(p, { opacity: 0, y: 30 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: textBlock,
+          start: "top 80%",
+        }
+      });
+
+      tl.to(title, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out"
+      }).to(p, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out"
+      }, "-=0.6");
+    });
+
+    // 2. Animación de las imágenes (verde-image-container)
+    const imagesContainers = sectionProceso.querySelectorAll(".verde-image-container");
+    imagesContainers.forEach((container) => {
+      const img = container.querySelector("img");
+
+      // Estado inicial: contenedor con overflow hidden (ya lo tiene en CSS), 
+      // y la imagen desplazada hacia abajo y escalada.
+      gsap.set(img, { yPercent: 100, scale: 1.3 });
+
+      const tlImg = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 85%",
+        }
+      });
+
+      tlImg.to(img, {
+        yPercent: 0,
+        duration: 1.2,
+        ease: "power4.out"
+      }).to(img, {
+        scale: 1,
+        duration: 1.5,
+        ease: "power3.out"
+      }, "-=1.2");
+    });
+  }
+
+  /* ============================================
+     21. PROCESO INTEGRAL (Orthofx Style Pin & Scrub)
+     ============================================ */
+  const piSection = document.getElementById("proceso-integral");
+  if (piSection) {
+    const piCards = piSection.querySelector(".pi-cards");
+
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 992px)", () => {
+      // Escritorio: Pin del section y scrub de las tarjetas
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: piSection,
+          start: "top top",
+          end: "+=200%", // Controla la duración del "scroll jacking"
+          pin: true,
+          scrub: 1, // Suavidad del movimiento
+        }
+      });
+
+      // Mueve el contenedor de tarjetas desde su posición hasta arriba
+      tl.to(piCards, {
+        y: () => -(piCards.scrollHeight - window.innerHeight * 0.5),
+        ease: "none"
+      });
+    });
+
+    mm.add("(max-width: 991px)", () => {
+      // Móvil: Simplemente revelamos las tarjetas
+      const cards = piSection.querySelectorAll(".pi-card");
+      cards.forEach((card) => {
+        gsap.from(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+          },
+          y: 60,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power3.out"
+        });
+      });
+    });
+  }
+
+  /* ============================================
+     22. GALERÍA MUEBLES CÁPSULA (Horizontal Scroll)
+     ============================================ */
+  const gallerySection = document.querySelector(".sc-gallery-section");
+  if (gallerySection) {
+    const galleryList = gallerySection.querySelector(".sc-gallery_list");
+    const galleryItems = gallerySection.querySelectorAll(".sc-gallery_item-img");
+
+    let mmGallery = gsap.matchMedia();
+
+    mmGallery.add("(min-width: 992px)", () => {
+      // Configuramos el estado inicial de las imágenes
+      gsap.set(galleryItems, { clipPath: "inset(100% 0% 0% 0%)" });
+
+      const scrollDist = () => -(galleryList.scrollWidth - window.innerWidth + 100);
+
+      // Creamos la animación del scroll horizontal
+      const tlGallery = gsap.to(galleryList, {
+        x: scrollDist,
+        ease: "none",
+        scrollTrigger: {
+          trigger: gallerySection,
+          start: "center center",
+          end: () => "+=" + galleryList.scrollWidth,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      // Animamos cada imagen para que se revele al entrar
+      galleryItems.forEach(item => {
+        const img = item.querySelector("img");
+
+        gsap.to(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: "left 85%", // Cuando asoma por la derecha
+            containerAnimation: tlGallery,
+            toggleActions: "play none none none"
+          },
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 1.5,
+          ease: "power4.out"
+        });
+
+        gsap.fromTo(img,
+          { scale: 1.3 },
+          {
+            scrollTrigger: {
+              trigger: item,
+              start: "left 85%",
+              containerAnimation: tlGallery,
+              toggleActions: "play none none none"
+            },
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out"
+          }
+        );
+      });
+    });
+
+    mmGallery.add("(max-width: 991px)", () => {
+      // GSAP set initial
+      gsap.set(galleryItems, { clipPath: "inset(100% 0% 0% 0%)" });
+
+      galleryItems.forEach(item => {
+        const img = item.querySelector("img");
+
+        gsap.to(item, {
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+          },
+          clipPath: "inset(0% 0% 0% 0%)",
+          duration: 1.2,
+          ease: "power4.out"
+        });
+
+        gsap.fromTo(img,
+          { scale: 1.3 },
+          {
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+            },
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out"
+          }
+        );
+      });
+    });
+  }
+
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tabItems = document.querySelectorAll(".pi-tab-item");
+  const bgImages = document.querySelectorAll(".pi-image-wrapper .bg-image");
+
+  tabItems.forEach((tab) => {
+    const trigger = tab.querySelector(".pi-tab-trigger");
+
+    trigger.addEventListener("click", () => {
+      // Si ya está activo, lo cerramos (toggle)
+      if (tab.classList.contains("active")) {
+        tab.classList.remove("active");
+        trigger.setAttribute("aria-expanded", "false");
+        return;
+      }
+
+      // 1. Desactivar solapa anterior
+      document.querySelector(".pi-tab-item.active")?.classList.remove("active");
+      document.querySelectorAll(".pi-tab-trigger").forEach(el => el.setAttribute("aria-expanded", "false"));
+
+      // 2. Activar solapa cliqueada
+      tab.classList.add("active");
+      trigger.setAttribute("aria-expanded", "true");
+
+      // 3. Cambiar imagen vinculada suavemente
+      const stepIndex = tab.getAttribute("data-step");
+
+      bgImages.forEach((img) => {
+        if (img.id === `pi-img-${stepIndex}`) {
+          img.classList.add("active");
+        } else {
+          img.classList.remove("active");
+        }
+      });
+    });
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tabButtons = document.querySelectorAll(".pi-inst-tab-btn");
+  const contentPanes = document.querySelectorAll(".pi-inst-content-pane");
+
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const targetId = button.getAttribute("data-target");
+
+      // 1. Quitar la clase activa de todos los botones
+      tabButtons.forEach((btn) => btn.classList.remove("active"));
+      // 2. Ocultar todas las tarjetas de contenido
+      contentPanes.forEach((pane) => pane.classList.remove("active"));
+
+      // 3. Activar la solapa clickeada
+      button.classList.add("active");
+      // 4. Mostrar la tarjeta de contenido correspondiente
+      const targetPane = document.getElementById(targetId);
+      if (targetPane) {
+        targetPane.classList.add("active");
+      }
+    });
+  });
+});
+
+/* -- MOVIMEINTOS SECCIÓN MISIÓN VISIÓN VALORES -- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const accordionItems = document.querySelectorAll(".pi-inst-item");
+
+  accordionItems.forEach((item) => {
+    const trigger = item.querySelector(".pi-inst-trigger");
+    const panel = item.querySelector(".pi-inst-panel");
+
+    // Inicializar el panel que arranca abierto por defecto
+    if (item.classList.contains("active")) {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+
+    trigger.addEventListener("click", () => {
+      const isActive = item.classList.contains("active");
+
+      // Cerrar los otros paneles activos al abrir uno nuevo (Efecto acordeón mutuo)
+      accordionItems.forEach((otherItem) => {
+        if (otherItem !== item && otherItem.classList.contains("active")) {
+          otherItem.classList.remove("active");
+          otherItem.querySelector(".pi-inst-trigger").setAttribute("aria-expanded", "false");
+          otherItem.querySelector(".pi-inst-panel").style.maxHeight = null;
+        }
+      });
+
+      // Alternar estado del elemento cliqueado
+      if (isActive) {
+        item.classList.remove("active");
+        trigger.setAttribute("aria-expanded", "false");
+        panel.style.maxHeight = null;
+      } else {
+        item.classList.add("active");
+        trigger.setAttribute("aria-expanded", "true");
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+
+      // IMPORTANTE: Refrescar GSAP ScrollTrigger después de la animación (0.5s)
+      if (typeof ScrollTrigger !== "undefined") {
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 550);
+      }
+    });
+  });
+
+  // Reajustar alturas dinámicas en caso de redimensionar la ventana del navegador
+  window.addEventListener("resize", () => {
+    accordionItems.forEach((item) => {
+      if (item.classList.contains("active")) {
+        const panel = item.querySelector(".pi-inst-panel");
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    });
+  });
+});
