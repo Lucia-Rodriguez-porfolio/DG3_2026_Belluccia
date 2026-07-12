@@ -1356,3 +1356,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const swapImages = document.querySelectorAll(".hero-swap");
+
+  swapImages.forEach((img) => {
+    // ---- EFECTO EN COMPUTADORAS (HOVER) ----
+
+    // Al pasar el mouse encima: muestra la versión vieja
+    img.addEventListener("mouseenter", () => {
+      img.style.opacity = "0.7"; // Suaviza la transición visual
+      setTimeout(() => {
+        img.src = img.dataset.old;
+        img.style.opacity = "1";
+      }, 100);
+    });
+
+    // Al sacar el mouse: vuelve a la versión nueva/restaurada SECCIÓN PROYECTOS ANTES Y DESPUÉS
+
+    img.addEventListener("mouseleave", () => {
+      img.style.opacity = "0.7";
+      setTimeout(() => {
+        img.src = img.dataset.new;
+        img.style.opacity = "1";
+      }, 100);
+    });
+
+    // ---- EFECTO EN CELULARES (TOUCH / TAP) ----
+    img.addEventListener("click", (e) => {
+      // Si el src actual es el nuevo, cambia al viejo. Si no, vuelve al nuevo.
+      if (img.getAttribute("src") === img.dataset.new) {
+        img.src = img.dataset.old;
+      } else {
+        img.src = img.dataset.new;
+      }
+    });
+  });
+});

@@ -1888,7 +1888,7 @@ a {
   --bg-deep: #F5EFE4;
   --bg-mid: #E8E0CD;
   --bg-surface: #DFD5BD;
-  --bg-card: #D5CAAE;
+  --bg-card: #d3ae86;
 
   --text-primary: #080810;
   --text-secondary: #F5EFE4;
@@ -2116,7 +2116,7 @@ textarea {
 
 /* Override para botones de inscripción en la grilla de cursos */
 .cursos-grid .btn-ghost {
-  background: #ffffff !important;
+  background: var(--accent-color) !important;
   color: #000000 !important;
   border-color: #ffffff !important;
 }
@@ -2128,7 +2128,7 @@ textarea {
 }
 
 a.btn-primary.btn-large.btn-full:active {
-  background: #133073 !important;
+  background: var(--accent-color) !important;
   color: #ffffff !important;
   border-color: #133073 !important;
 }
@@ -2548,7 +2548,7 @@ button.btn-primary.btn-large.btn-full:active {
    ================================================ */
 .section-proceso {
   padding: 6rem 4%;
-  background: var(--bg-deep);
+  background: var(--void)
 }
 
 .proceso-header {
@@ -3482,7 +3482,7 @@ button.btn-primary.btn-large.btn-full:active {
 .testimonial-card {
   flex: 0 0 320px;
   padding: 1.5rem;
-  background: var(--bg-card);
+  background: var(--void);
   border-radius: var(--radius-lg);
   border: 1px solid rgba(240, 235, 224, 0.06);
   display: flex;
@@ -3492,7 +3492,7 @@ button.btn-primary.btn-large.btn-full:active {
 }
 
 .testimonial-card .stars {
-  color: #133073;
+  color: var(--accent-color);
   font-size: 1.1rem;
   letter-spacing: 2px;
   margin-bottom: 0.75rem;
@@ -3510,7 +3510,7 @@ button.btn-primary.btn-large.btn-full:active {
 
 .testimonial-card strong {
   font-size: 0.95rem;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   display: block;
 }
 
@@ -4048,13 +4048,13 @@ button.btn-primary.btn-large.btn-full:active {
 .curso-card {
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-card, #0f0f13);
-  border-radius: var(--radius-md);
+  background-color: var(--bg-deep);
   border: 1px solid rgba(240, 235, 224, 0.1);
   padding: 1.5rem;
   position: relative;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   color: var(--text-primary);
+  border-radius: var(--radius-lg);
 }
 
 .curso-card:hover {
@@ -4065,9 +4065,9 @@ button.btn-primary.btn-large.btn-full:active {
 
 .curso-num {
   font-family: var(--font-primary);
-  font-size: 1.5rem;
+  font-size: 6rem;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--bg-card);
   margin-bottom: 1rem;
 }
 
@@ -4125,7 +4125,7 @@ button.btn-primary.btn-large.btn-full:active {
 
 .curso-price-wrapper strong {
   font-size: 2rem;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   color: var(--text-primary);
 }
 
@@ -4358,7 +4358,7 @@ button.btn-primary.btn-large.btn-full:active {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  align-items: center;
+  /*align-items: center;*/
   padding: 3rem 4%;
 }
 
@@ -4613,12 +4613,13 @@ button.btn-primary.btn-large.btn-full:active {
 }
 
 #proceso-cursos {
-  background-color: var(--void) !important;
-  max-width: 100% !important;
-  width: 100% !important;
-  color: #000000 !important;
-  padding: 6rem 4%;
+  position: relative;
+  width: 100%;
+  background: var(--void) !important;
+  overflow: visible !important;
 }
+
+
 
 /* ---- Muebles Cápsula Editorial Floating Collage ---- */
 .c-section#capsula {
@@ -5046,7 +5047,7 @@ button.btn-primary.btn-large.btn-full:active {
 
 /* --- H3 EN BLOQUES ALTERNADOS (PÁGINA DETALLE) --- */
 .intro-text .section-title-2 {
-  font-size: 1.75rem;
+  font-size: 2rem;
   line-height: 1.2;
   letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
@@ -5949,9 +5950,9 @@ button.btn-primary.btn-large.btn-full:active {
 
 /* Estructura Principal Layout */
 .section-proceso-integral {
-  background-color: #111;
+  background-color: #f5efe4;
   /* Ajustar según estética oscura de Madera Viva */
-  color: #fff;
+  color: #111;
   padding: 0;
 }
 
@@ -6069,13 +6070,13 @@ button.btn-primary.btn-large.btn-full:active {
 }
 
 .pi-tab-item {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1.5rem 0;
   transition: border-color 0.3s ease;
 }
 
 .pi-tab-item.active {
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 0, 0, 0.5);
 }
 
 .pi-tab-trigger {
@@ -6084,7 +6085,7 @@ button.btn-primary.btn-large.btn-full:active {
   border: none;
   padding: 16px 0;
   margin: 0;
-  color: #fff;
+  color: #111;
   text-align: left;
   display: flex;
   align-items: center;
@@ -6096,7 +6097,7 @@ button.btn-primary.btn-large.btn-full:active {
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: #111;
   min-width: 30px;
   transition: color 0.3s ease;
 }
@@ -6130,7 +6131,7 @@ button.btn-primary.btn-large.btn-full:active {
 .pi-tab-icon::after {
   content: '';
   position: absolute;
-  background-color: #fff;
+  background-color: #111;
   transition: transform 0.3s ease;
 }
 
@@ -6174,7 +6175,7 @@ button.btn-primary.btn-large.btn-full:active {
 }
 
 .pi-tab-content-inner p {
-  color: #ccc;
+  color: #333;
   line-height: 1.6;
   font-size: clamp(17px, 1.2vw, 19px);
   margin-bottom: 1rem;
@@ -6210,7 +6211,7 @@ button.btn-primary.btn-large.btn-full:active {
 .section-proceso-integral {
   position: relative !important;
   z-index: 100 !important;
-  background-color: #111;
+  background-color: #f5efe4;
   /* Evita transparencias que dejen ver lo de abajo */
 }
 
@@ -6298,6 +6299,7 @@ button.btn-primary.btn-large.btn-full:active {
   letter-spacing: 0.05em;
   color: rgba(0, 0, 0, 0.6);
   transition: transform 0.3s ease;
+  margin-bottom: 1rem;
 }
 
 .pi-inst-summary {
@@ -6409,4 +6411,194 @@ button.btn-primary.btn-large.btn-full:active {
   color: rgba(0, 0, 0, 0.4);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1.5rem;
+}
+
+#proceso-restauracion {
+  background-image: url('../assets/bkg_resultados.jpg');
+  /* Los dos puntos sirven para salir de la carpeta css */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ==========================================================
+   SECCIÓN CONTACTO / FOOTER
+   ========================================================== */
+
+.section-footer {
+  position: relative;
+  background-color: var(--void);
+  padding: 6rem 4%;
+  color: var(--text);
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  margin-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footer-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 64px);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.footer-desc {
+  font-family: var(--font-body);
+  font-size: clamp(17px, 1.2vw, 19px);
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+.footer-contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.footer-link {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: var(--accent-color);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.footer-social a {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: translateY(-2px);
+}
+
+.footer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.form-group label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-group input,
+.form-group textarea {
+  font-family: var(--font-body);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text);
+  padding: 0.5rem 0;
+  font-size: 1.05rem;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.footer-form .btn {
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+}
+
+.footer-bottom footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom footer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.footer-copy,
+.footer-location {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-logo img {
+  height: 24px;
+  width: auto;
+  opacity: 0.8;
+  filter: brightness(0) invert(1);
 }
