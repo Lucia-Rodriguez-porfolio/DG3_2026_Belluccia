@@ -2546,6 +2546,12 @@ button.btn-primary.btn-large.btn-full:active {
 /* ================================================
    SECCIÓN 3 — EL TALLER / PROCESO
    ================================================ */
+.section-proceso-diferencial {
+  padding: 6rem 4%;
+  background: var(--bg-deep)
+}
+
+
 .section-proceso {
   padding: 6rem 4%;
   background: var(--void)
