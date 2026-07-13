@@ -2117,8 +2117,8 @@ textarea {
 /* Override para botones de inscripción en la grilla de cursos */
 .cursos-grid .btn-ghost {
   background: var(--accent-color) !important;
-  color: #000000 !important;
-  border-color: #ffffff !important;
+  color: var(--text-secondary) !important;
+  border-color: var(--text-secondary) !important;
 }
 
 .cursos-grid .btn-ghost:hover {
@@ -2288,7 +2288,8 @@ button.btn-primary.btn-large.btn-full:active {
 
 .hero-title {
   font-family: var(--serif);
-  font-size: clamp(3.2rem, 5.5vw, 6rem);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  /* H1 más controlado */
   font-weight: 900;
   line-height: 1.0;
   letter-spacing: -0.03em;
@@ -4122,6 +4123,23 @@ button.btn-primary.btn-large.btn-full:active {
   font-weight: 500;
 }
 
+/* Tilde sutil para lista de features en intro-text */
+.intro-text .curso-features-list .curso-feature-item {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: none;
+  margin-bottom: 0.8rem;
+}
+
+.intro-text .curso-features-list .curso-feature-item::before {
+  content: "✓";
+  color: var(--accent-color, rgba(255, 255, 255, 0.7));
+  opacity: 0.6;
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
 .curso-price-wrapper {
   display: flex;
   justify-content: space-between;
@@ -4351,7 +4369,8 @@ button.btn-primary.btn-large.btn-full:active {
 
 /* Background para Sección Manifiesto */
 .section-manifiesto {
-  background-image: url('../assets/seccion2_bkg.png');
+  background-image: url('../assets/seccion2_bkg.jpg');
+  /* ¡Corregido aquí! */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -6414,7 +6433,7 @@ button.btn-primary.btn-large.btn-full:active {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--accent-color);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 1.5rem;
 }
