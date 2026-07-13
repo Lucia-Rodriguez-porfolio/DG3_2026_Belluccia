@@ -1393,3 +1393,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+/* ============================================
+   CARRUSEL CÁPSULA MOBILE (CON FLECHAS)
+   ============================================ */
+const capList = document.querySelector('.sc-gallery_list');
+const capPrev = document.getElementById('cap-prev');
+const capNext = document.getElementById('cap-next');
+let currentCapIndex = 0;
+
+if (capList && capPrev && capNext) {
+  const updateCapsula = () => {
+    if (window.innerWidth <= 768) {
+      const items = Array.from(capList.querySelectorAll('.sc-gallery_item'));
+      if(items.length > 0) {
+        const itemWidth = items[0].offsetWidth + parseInt(window.getComputedStyle(capList).gap || 0);
+        capList.style.transform = "translateX(-px)";
+      }
+    } else {
+      capList.style.transform = '';
+    }
+  };
+
+  capNext.addEventListener('click', () => {
+    const items = Array.from(capList.querySelectorAll('.sc-gallery_item'));
+    if (currentCapIndex < items.length - 1) {
+      currentCapIndex++;
+      updateCapsula();
+    }
+  });
+
+  capPrev.addEventListener('click', () => {
+    if (currentCapIndex > 0) {
+      currentCapIndex--;
+      updateCapsula();
+    }
+  });
+
+  window.addEventListener('resize', updateCapsula);
+}

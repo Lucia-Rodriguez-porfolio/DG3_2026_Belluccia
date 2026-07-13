@@ -5518,13 +5518,16 @@ button.btn-primary.btn-large.btn-full:active {
   animation-range: contain 0% contain 100%;
 }
 
-/* Estilos base para los ítems para asegurar el comportamiento horizontal */
+/* Estilos base para el header de la cápsula (Centrado en ambas versiones) */
 .sc-gallery-header {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 300px;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto 2rem auto;
 }
 
 /* Animación que calcula el desplazamiento exacto hacia la izquierda */
@@ -5641,19 +5644,17 @@ button.btn-primary.btn-large.btn-full:active {
   }
 
   .sc-gallery-header {
-    position: sticky;
-    left: 1rem;
-    margin-top: -160px;
-    width: 0 !important;
-    min-width: 0 !important;
+    position: relative;
+    width: 100% !important;
     padding: 0 !important;
     z-index: 10;
   }
 
   .sc-gallery-header .section-label,
   .sc-gallery-header .section-title {
-    width: calc(100vw - 2rem);
+    width: 100%;
     display: block;
+    text-align: center;
   }
 
   .sc-gallery_item-img,
@@ -6651,4 +6652,253 @@ button.btn-primary.btn-large.btn-full:active {
   width: auto;
   opacity: 0.8;
   filter: brightness(0) invert(1);
+}
+
+/* ==========================================================
+   MOBILE MENU (HAMBURGER)
+   ========================================================== */
+@media (max-width: 768px) {
+
+  /* Ocultar botón UI KIT en la barra para hacer espacio */
+  .apex-nav-inner .btn-ghost {
+    display: none;
+  }
+
+  /* Asegurarse que el botón de hamburguesa se vea */
+  .mobile-menu-btn {
+    display: flex !important;
+    z-index: 9999;
+  }
+
+  /* Asegurarse que las líneas se vean (blancas/claras) */
+  .mobile-menu-btn span {
+    background: #fff !important;
+  }
+
+  /* Animación del botón (Hamburguesa a X) */
+  .mobile-menu-btn.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .mobile-menu-btn.is-active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-btn.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Menú desplegable a pantalla completa */
+  .apex-nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(25, 15, 9, 0.98);
+    /* Fondo marrón oscuro (#190f09) con leve transparencia */
+    backdrop-filter: blur(10px);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem !important;
+    z-index: 9998;
+    /* Un nivel debajo del botón hamburguesa */
+
+    /* Estado inicial: oculto y desplazado hacia arriba */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.4s ease-in-out;
+  }
+
+  /* Estado abierto */
+  .apex-nav-links.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Estilos para los enlaces dentro del menú mobile */
+  .apex-nav-links a {
+    color: #fff !important;
+    font-size: 1.5rem !important;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  /* ==========================================
+     ESTILOS GENERALES / MOBILE BASE (Hero)
+     ========================================== */
+
+  /* Contenedor principal del Hero */
+  .section-hero,
+  #hero {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  /* El video ocupa el 100% del ancho de forma responsiva */
+  .hero-bg-video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: -1 !important;
+  }
+
+  .hero-bg-video video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    /* Hace que llene el ancho y alto sin deformarse */
+    object-position: center !important;
+  }
+
+  /* Ajuste del contenido del Hero para Mobile (Galaxy S8, etc.) */
+  .section-hero .hero-content,
+  #hero .hero-content {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-top: 45vh !important;
+    /* Esto hace que el contenido baje más en mobile */
+    padding-right: 24px !important;
+    padding-left: 24px !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    margin-top: 0 !important;
+  }
+
+  /* ==========================================
+     QUIENES SOMOS (Invertir orden en Mobile)
+     ========================================== */
+  #verde .grid-two {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 2rem;
+  }
+
+  /* ==========================================
+     DIFERENCIAL (Invertir orden en Mobile para imgs 5 y 6)
+     ========================================== */
+  /* Para img 5 (HTML original: Texto -> Imagen) */
+  #proceso .grid-two:not(.grid-two--reverse-mobile) {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 2rem;
+  }
+
+  /* Para img 6 (HTML original: Imagen -> Texto, anulamos la clase que lo invertía) */
+  #proceso .grid-two.grid-two--reverse-mobile .verde-image-container {
+    order: 1 !important;
+  }
+
+  #proceso .grid-two.grid-two--reverse-mobile .intro-text {
+    order: 2 !important;
+  }
+
+  /* ==========================================
+     CURSOS (Más ancho en Mobile)
+     ========================================== */
+  #cursos .container {
+    /* Achicamos el padding del contenedor principal para darle más espacio a las cards */
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .cursos-grid {
+    /* Quitamos el enorme padding interno de la grilla que aplastaba las cards */
+    padding: 0 !important;
+  }
+
+  /* ==========================================
+     PROCESO INTEGRAL (Video más grande en Mobile)
+     ========================================== */
+  .pi-left-col {
+    /* El video (ej. video_3.mp4) tenía 40vh por defecto. Lo agrandamos a 55vh para que se luzca más en celulares */
+    height: 55vh !important;
+  }
+
+  /* ==========================================
+     MUEBLES CÁPSULA (Carrusel Horizontal Puro en Mobile)
+     ========================================== */
+  .sc-gallery_list-wrapper {
+    /* Eliminamos cualquier efecto de parallax vertical o anclaje (sticky) */
+    position: relative !important;
+    height: auto !important;
+
+    /* Habilitamos el scrolleo horizontal nativo */
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    /* Suavidad en iOS */
+  }
+
+  .sc-gallery_list {
+    /* Eliminamos animaciones heredadas de desktop */
+    animation: none !important;
+    transform: none !important;
+
+    /* Forzamos el carrusel estrictamente horizontal de una sola fila */
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+  }
+
+  .sc-gallery-header {
+    /* Quitamos el sticky del título para que fluya normal en mobile */
+    position: relative !important;
+    margin-top: 0 !important;
+    left: 0 !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* ==========================================
+     FOOTER (Reordenar formulario en Mobile)
+     ========================================== */
+  .footer-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important; /* Espaciado uniforme para los elementos aplanados */
+  }
+
+  .footer-left,
+  .footer-right {
+    /* 'contents' disuelve el contenedor visualmente para que los hijos pasen a ser ítems directos del .footer-content */
+    display: contents !important; 
+  }
+
+  /* Reasignamos el orden visual de arriba hacia abajo */
+  .footer-title {
+    order: 1 !important;
+  }
+
+  .footer-desc {
+    order: 2 !important;
+  }
+
+  .footer-form {
+    order: 3 !important; /* Ahora el formulario se inserta justo debajo de footer-desc */
+    width: 100% !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .footer-contact-info {
+    order: 4 !important;
+  }
+
+  .footer-social {
+    order: 5 !important;
+  }
 }
