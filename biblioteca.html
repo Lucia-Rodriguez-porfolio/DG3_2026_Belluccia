@@ -269,7 +269,7 @@
     }
 
     .lib-block {
-      background: var(--bg-deep);
+      background: var(--bg-surface);
       border: 1px solid var(--lib-border);
       border-radius: 14px;
       padding: 28px;
@@ -444,7 +444,6 @@
       <li><a href="#tags"><span>04</span>Tags</a></li>
       <li><a href="#cards"><span>05</span>Cards</a></li>
       <li><a href="#navegacion"><span>06</span>Nav y footer</a></li>
-      <li><a href="#iconos"><span>07</span>Iconos</a></li>
     </ul>
   </header>
 
@@ -453,9 +452,7 @@
 
     <header class="lib-header">
       <h1>Biblioteca de Componentes</h1>
-      <p>Catálogo vivo de los estilos y componentes de <strong>index.html</strong>. Cada bloque usa las mismas
-        clases CSS del sitio, así que cualquier cambio en <code>css/styles.css</code> se refleja acá automáticamente.
-        Reemplazá nombres de clase según corresponda a tu proyecto.</p>
+      <p>Catálogo vivo de los estilos y componentes de <strong>index.html</strong> y <strong>styles.css</strong></p>
     </header>
 
     <!-- ========================================================
@@ -625,7 +622,6 @@
         <div class="lib-row">
           <a href="#" class="btn btn-primary">Normal</a>
           <a href="#" class="btn btn-primary btn-large">Grande (.btn-large)</a>
-          <a href="#" class="btn btn-primary btn-full" style="max-width:220px;">Ancho completo (.btn-full)</a>
         </div>
       </div>
     </section>
@@ -680,7 +676,8 @@
               <li class="curso-feature-item"><strong>Duración:</strong> <span>3 meses</span></li>
             </ul>
             <div class="curso-price-wrapper"><strong>$50.000</strong></div>
-            <a href="#" class="btn btn-ghost btn-block"><strong>Inscribirme</strong></a>
+            <a href="#" class="btn btn-ghost btn-block"
+              style="color:#8a1f10; background: var(--accent-color) !important;"><strong>Inscribirme</strong></a>
           </div>
         </div>
       </div>
@@ -727,7 +724,7 @@
       <div class="lib-block">
         <span class="lib-block__label">Navbar (.nav)</span>
         <div class="lib-replica">
-          <nav class="nav">
+          <nav class="nav" style="background: rgba(196, 154, 108, 0.85);">
             <div class="apex-nav-inner">
               <a href="#" class="apex-logo">Raíz</a>
               <div class="apex-nav-links">
@@ -744,7 +741,7 @@
 
       <div class="lib-block">
         <span class="lib-block__label">Footer (.footer-bottom)</span>
-        <div class="lib-replica" style="padding:24px;">
+        <div class="lib-replica" style="padding:24px; background:#190f09;">
           <div class="footer-bottom">
             <footer>
               <span class="footer-copy">© 2026 Raíz — Restauración y Upcycling de Mobiliario</span>
@@ -755,37 +752,6 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         07 — ICONOS
-    ========================================================= -->
-    <section class="lib-section" id="iconos">
-      <div class="lib-section__head">
-        <span class="lib-section__num">07</span>
-        <h2>Iconos</h2>
-      </div>
-
-      <div class="lib-block">
-        <span class="lib-block__label">Grilla de iconos base</span>
-        <div class="lib-grid lib-grid--icons">
-          <div class="lib-item-caption">
-            <div class="lib-icon">↗</div>
-            Flecha
-          </div>
-          <div class="lib-item-caption">
-            <div class="lib-icon" style="background: var(--text-primary); color:#fff;">→</div>
-            Ir a
-          </div>
-          <div class="lib-item-caption">
-            <div class="lib-icon" style="background: var(--accent-color); color:#fff;">✓</div>
-            Confirmar
-          </div>
-          <div class="lib-item-caption">
-            <div class="lib-icon">★</div>
-            Estrella
-          </div>
-        </div>
-      </div>
-    </section>
 
   </main>
 
