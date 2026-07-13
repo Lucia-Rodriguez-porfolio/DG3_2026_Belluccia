@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biblioteca de Componentes — Raíz</title>
+
+  <!-- Hoja de estilos del proyecto (misma que usa index.html) -->
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+
+  <!-- ============================================================
+       CAPA DE DISEÑO DE LA BIBLIOTECA (solo para esta página)
+       No pisa clases del proyecto: usa el prefijo "lib-" en todo.
+       Mobile-first: las reglas base son para mobile y se amplían
+       con min-width media queries para tablet/desktop.
+       ============================================================ -->
+  <style>
+    :root {
+      --lib-navbar-h: 116px;
+      /* alto aprox. en mobile (2 filas) */
+      --lib-border: rgba(8, 8, 16, 0.12);
+      --lib-bg: #fdfbf6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--lib-bg);
+      zoom: 1 !important;
+      /* anula el zoom global del sitio dentro de la biblioteca */
+    }
+
+    /* ---------- Navbar de navegación (antes sidebar) ---------- */
+    .lib-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--text-primary, #080810);
+      color: #fff;
+      border-bottom: 1px solid var(--lib-border);
+      padding: 14px 20px;
+    }
+
+    .lib-navbar__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .lib-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      font-family: var(--sans, "DM Sans", sans-serif);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 10px;
+      border-radius: 8px;
+      transition: background 0.2s ease, color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .lib-back:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .lib-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      line-height: 1.1;
+    }
+
+    .lib-brand__title {
+      font-family: var(--serif, "Playfair Display", serif);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .lib-brand__subtitle {
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.55;
+    }
+
+    /* Fila de links: scroll horizontal en mobile, todo visible en desktop */
+    .lib-nav {
+      list-style: none;
+      margin: 0;
+      padding: 0 0 2px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      white-space: nowrap;
+    }
+
+    .lib-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .lib-nav a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.72);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      transition: background 0.2s ease, color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .lib-nav a:hover,
+    .lib-nav a.is-active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .lib-nav span {
+      opacity: 0.4;
+      font-size: 0.72rem;
+      margin-right: 6px;
+    }
+
+    /* ---------- Contenido principal ---------- */
+    .lib-main {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* ---------- Breakpoint tablet / desktop ---------- */
+    @media (min-width: 720px) {
+      :root {
+        --lib-navbar-h: 96px;
+      }
+
+      .lib-navbar {
+        padding: 16px 40px;
+      }
+
+      .lib-navbar__top {
+        margin-bottom: 14px;
+      }
+
+      .lib-brand {
+        align-items: flex-start;
+      }
+
+      .lib-brand__title {
+        font-size: 1.3rem;
+      }
+
+      .lib-nav {
+        gap: 6px;
+      }
+
+      .lib-main {
+        padding: 48px 56px 120px;
+      }
+    }
+
+    /* ---------- Breakpoint desktop grande: todo en una sola fila ---------- */
+    @media (min-width: 1024px) {
+      .lib-navbar__top {
+        margin-bottom: 0;
+      }
+
+      .lib-navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 16px 56px;
+      }
+
+      .lib-navbar__top {
+        display: contents;
+      }
+
+      .lib-nav {
+        flex: 1;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .lib-brand {
+        order: 3;
+      }
+
+      .lib-back {
+        order: 1;
+      }
+    }
+
+    .lib-header {
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--lib-border);
+    }
+
+    .lib-header h1 {
+      font-family: var(--serif, "Playfair Display", serif);
+      font-size: 2.6rem;
+      font-weight: 900;
+      margin: 0 0 8px;
+      color: var(--text-primary, #080810);
+    }
+
+    .lib-header p {
+      font-family: var(--sans, "DM Sans", sans-serif);
+      color: var(--text-muted, #6b6b6b);
+      max-width: 640px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ---------- Secciones ---------- */
+    .lib-section {
+      margin-bottom: 88px;
+      scroll-margin-top: 32px;
+    }
+
+    .lib-section__head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--lib-border);
+    }
+
+    .lib-section__num {
+      font-family: var(--serif, "Playfair Display", serif);
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--accent-color, var(--accent-marron, #ca4f3c));
+    }
+
+    .lib-section__head h2 {
+      font-family: var(--sans, "DM Sans", sans-serif);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-primary, #080810);
+      margin: 0;
+    }
+
+    .lib-block {
+      background: var(--bg-deep);
+      border: 1px solid var(--lib-border);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .lib-block__label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted, #999);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    /* ---------- Grillas utilitarias de la biblioteca ---------- */
+    .lib-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .lib-grid--colors {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+
+    .lib-grid--3 {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .lib-grid--icons {
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    }
+
+    /* ---------- Swatch de color ---------- */
+    .lib-swatch {
+      border: 1px solid var(--lib-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .lib-swatch__fill {
+      height: 92px;
+    }
+
+    .lib-swatch__meta {
+      padding: 10px 12px;
+      background: #fff;
+    }
+
+    .lib-swatch__name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: block;
+      color: var(--text-primary, #080810);
+    }
+
+    .lib-swatch__code {
+      font-size: 0.72rem;
+      font-family: ui-monospace, "Space Mono", monospace;
+      color: var(--text-muted, #999);
+    }
+
+    /* ---------- Fila de tipografía ---------- */
+    .lib-type-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .lib-type-row+.lib-type-row {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--lib-border);
+    }
+
+    .lib-type-sample {
+      flex: 1;
+      min-width: 260px;
+      color: var(--text-primary, #080810);
+    }
+
+    .lib-type-meta {
+      font-family: ui-monospace, "Space Mono", monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted, #999);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    /* ---------- Fila de botones / tags / iconos ---------- */
+    .lib-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lib-item-caption {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--text-muted, #999);
+      text-align: center;
+    }
+
+    /* ---------- Contenedor de nav / footer replicados ---------- */
+    .lib-replica {
+      border: 1px solid var(--lib-border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--bg-deep, #f5efe4);
+    }
+
+    .lib-replica .nav {
+      position: relative !important;
+      top: 0 !important;
+    }
+
+    /* Iconos placeholder */
+    .lib-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-surface, #eee);
+      color: var(--text-primary, #080810);
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+      }
+
+      .lib-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .lib-main {
+        padding: 32px 20px 80px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ NAVBAR DE NAVEGACIÓN ============ -->
+  <header class="lib-navbar">
+    <div class="lib-navbar__top">
+      <a href="index.html" class="lib-back" aria-label="Volver al inicio">
+        ← Volver al inicio
+      </a>
+      <div class="lib-brand">
+        <span class="lib-brand__title">Raíz</span>
+        <span class="lib-brand__subtitle">Biblioteca de componentes</span>
+      </div>
+    </div>
+    <ul class="lib-nav">
+      <li><a href="#colores"><span>01</span>Colores</a></li>
+      <li><a href="#tipografia"><span>02</span>Tipografía</a></li>
+      <li><a href="#botones"><span>03</span>Botones</a></li>
+      <li><a href="#tags"><span>04</span>Tags</a></li>
+      <li><a href="#cards"><span>05</span>Cards</a></li>
+      <li><a href="#navegacion"><span>06</span>Nav y footer</a></li>
+      <li><a href="#iconos"><span>07</span>Iconos</a></li>
+    </ul>
+  </header>
+
+  <!-- ============ CONTENIDO PRINCIPAL ============ -->
+  <main class="lib-main">
+
+    <header class="lib-header">
+      <h1>Biblioteca de Componentes</h1>
+      <p>Catálogo vivo de los estilos y componentes de <strong>index.html</strong>. Cada bloque usa las mismas
+        clases CSS del sitio, así que cualquier cambio en <code>css/styles.css</code> se refleja acá automáticamente.
+        Reemplazá nombres de clase según corresponda a tu proyecto.</p>
+    </header>
+
+    <!-- ========================================================
+         01 — PALETA DE COLORES
+    ========================================================= -->
+    <section class="lib-section" id="colores">
+      <div class="lib-section__head">
+        <span class="lib-section__num">01</span>
+        <h2>Paleta de colores</h2>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Fondos</span>
+        <div class="lib-grid lib-grid--colors">
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--bg-deep);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Bg Deep</span>
+              <span class="lib-swatch__code">--bg-deep</span>
+            </div>
+          </div>
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--bg-mid);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Bg Mid</span>
+              <span class="lib-swatch__code">--bg-mid</span>
+            </div>
+          </div>
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--bg-surface);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Bg Surface</span>
+              <span class="lib-swatch__code">--bg-surface</span>
+            </div>
+          </div>
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: #190f09;"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Void</span>
+              <span class="lib-swatch__code">--void</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Texto</span>
+        <div class="lib-grid lib-grid--colors">
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--text-primary);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Text Primary</span>
+              <span class="lib-swatch__code">--text-primary</span>
+            </div>
+          </div>
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill"
+              style="background: var(--text-secondary); border-bottom:1px solid var(--lib-border);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Text Secondary</span>
+              <span class="lib-swatch__code">--text-secondary</span>
+            </div>
+          </div>
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--text-muted);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Text Muted</span>
+              <span class="lib-swatch__code">--text-muted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Acentos</span>
+        <div class="lib-grid lib-grid--colors">
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--accent-color);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Accent Color</span>
+              <span class="lib-swatch__code">--accent-color</span>
+            </div>
+          </div>
+          <div class="lib-swatch">
+            <div class="lib-swatch__fill" style="background: var(--accent-hover);"></div>
+            <div class="lib-swatch__meta">
+              <span class="lib-swatch__name">Accent Hover</span>
+              <span class="lib-swatch__code">--accent-hover</span>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         02 — TIPOGRAFÍA
+    ========================================================= -->
+    <section class="lib-section" id="tipografia">
+      <div class="lib-section__head">
+        <span class="lib-section__num">02</span>
+        <h2>Tipografía</h2>
+      </div>
+
+      <div class="lib-block">
+        <div class="lib-type-row">
+          <div class="lib-type-sample">
+            <h2 class="section-title" style="margin:0;">Cada mueble cuenta una historia</h2>
+          </div>
+          <div class="lib-type-meta">.section-title<br>Playfair Display · 900 · 2.5rem</div>
+        </div>
+
+        <div class="lib-type-row">
+          <div class="lib-type-sample">
+            <h3 class="section-title-2" style="margin:0;">Proceso de restauración</h3>
+          </div>
+          <div class="lib-type-meta">.section-title-2<br>Playfair Display · subtítulo</div>
+        </div>
+
+        <div class="lib-type-row">
+          <div class="lib-type-sample">
+            <span class="section-label">Nuestra formación</span>
+          </div>
+          <div class="lib-type-meta">.section-label<br>DM Sans · 700 · 16px · uppercase</div>
+        </div>
+
+        <div class="lib-type-row">
+          <div class="lib-type-sample">
+            <p class="pi-inst-pane-desc" style="margin:0;">Desde la selección de los materiales hasta los ajustes
+              finales, el objetivo es que desarrolles la capacidad de restaurar con autonomía y criterio propio.</p>
+          </div>
+          <div class="lib-type-meta">.pi-inst-pane-desc<br>DM Sans · 400 · cuerpo de texto</div>
+        </div>
+
+        <div class="lib-type-row">
+          <div class="lib-type-sample">
+            <div class="curso-feature-item"><span>Nivel: Intermedio</span></div>
+          </div>
+          <div class="lib-type-meta">.curso-feature-item<br>DM Sans · texto pequeño</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         03 — BOTONES Y VARIANTES
+    ========================================================= -->
+    <section class="lib-section" id="botones">
+      <div class="lib-section__head">
+        <span class="lib-section__num">03</span>
+        <h2>Botones y variantes</h2>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Variantes</span>
+        <div class="lib-row">
+          <a href="#" class="btn btn-primary">Inscribirme</a>
+          <a href="#" class="btn btn-ghost">Ver programa</a>
+          <a href="#" class="btn btn-ghost-1">Enviar consulta</a>
+          <button class="btn btn-primary" disabled style="opacity:.4; cursor:not-allowed;">Deshabilitado</button>
+        </div>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Tamaños</span>
+        <div class="lib-row">
+          <a href="#" class="btn btn-primary">Normal</a>
+          <a href="#" class="btn btn-primary btn-large">Grande (.btn-large)</a>
+          <a href="#" class="btn btn-primary btn-full" style="max-width:220px;">Ancho completo (.btn-full)</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         04 — TAGS / BADGES
+    ========================================================= -->
+    <section class="lib-section" id="tags">
+      <div class="lib-section__head">
+        <span class="lib-section__num">04</span>
+        <h2>Tags / Badges</h2>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Etiquetas de curso (.curso-feature-item)</span>
+        <ul class="curso-features-list" style="list-style:none; display:flex; gap:12px; flex-wrap:wrap; padding:0;">
+          <li class="curso-feature-item"><strong>Nivel:</strong> <span>Inicial</span></li>
+          <li class="curso-feature-item"><strong>Duración:</strong> <span>3 meses</span></li>
+          <li class="curso-feature-item"><strong>Clases:</strong> <span>4 hrs semanales</span></li>
+        </ul>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Etiqueta destacada (.bento-tag)</span>
+        <div class="lib-row">
+          <span class="bento-tag">Edición limitada</span>
+          <span class="bento-tag">Proceso</span>
+          <span class="bento-tag">Agotado</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         05 — CARDS
+    ========================================================= -->
+    <section class="lib-section" id="cards">
+      <div class="lib-section__head">
+        <span class="lib-section__num">05</span>
+        <h2>Cards</h2>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Curso card (.curso-card)</span>
+        <div class="lib-grid lib-grid--3">
+          <div class="curso-card visible">
+            <div class="curso-num">01</div>
+            <h3 class="section-title-2">Introducción a la restauración</h3>
+            <div class="pi-inst-pane-desc">Aprendé los fundamentos del trabajo en madera: uniones y técnicas
+              esenciales para reensamblar piezas.</div>
+            <ul class="curso-features-list">
+              <li class="curso-feature-item"><strong>Nivel:</strong> <span>Inicial</span></li>
+              <li class="curso-feature-item"><strong>Duración:</strong> <span>3 meses</span></li>
+            </ul>
+            <div class="curso-price-wrapper"><strong>$50.000</strong></div>
+            <a href="#" class="btn btn-ghost btn-block"><strong>Inscribirme</strong></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Testimonial card (.testimonial-card)</span>
+        <div class="lib-grid lib-grid--3">
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="pi-inst-pane-desc">"Entendí que restaurar no es solo limpiar; es revivir el alma del mueble."</p>
+            <strong>Martín R.</strong>
+          </article>
+        </div>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Estadísticas (.curso-stats-grid)</span>
+        <div class="curso-stats-grid">
+          <article>
+            <strong>+250</strong>
+            <span>Alumnos graduados</span>
+          </article>
+          <article>
+            <strong>78%</strong>
+            <span>Práctica real</span>
+          </article>
+          <article>
+            <strong>1 a 1</strong>
+            <span>Acompañamiento personalizado</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         06 — NAVEGACIÓN Y FOOTER
+    ========================================================= -->
+    <section class="lib-section" id="navegacion">
+      <div class="lib-section__head">
+        <span class="lib-section__num">06</span>
+        <h2>Navegación y footer</h2>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Navbar (.nav)</span>
+        <div class="lib-replica">
+          <nav class="nav">
+            <div class="apex-nav-inner">
+              <a href="#" class="apex-logo">Raíz</a>
+              <div class="apex-nav-links">
+                <a href="#">NOSOTROS</a>
+                <a href="#">CURSOS</a>
+                <a href="#">SERVICIOS</a>
+                <a href="#">CONTACTO</a>
+              </div>
+              <a href="#" class="btn btn-ghost">UI KIT</a>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Footer (.footer-bottom)</span>
+        <div class="lib-replica" style="padding:24px;">
+          <div class="footer-bottom">
+            <footer>
+              <span class="footer-copy">© 2026 Raíz — Restauración y Upcycling de Mobiliario</span>
+              <span class="footer-location">Buenos Aires, Argentina</span>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         07 — ICONOS
+    ========================================================= -->
+    <section class="lib-section" id="iconos">
+      <div class="lib-section__head">
+        <span class="lib-section__num">07</span>
+        <h2>Iconos</h2>
+      </div>
+
+      <div class="lib-block">
+        <span class="lib-block__label">Grilla de iconos base</span>
+        <div class="lib-grid lib-grid--icons">
+          <div class="lib-item-caption">
+            <div class="lib-icon">↗</div>
+            Flecha
+          </div>
+          <div class="lib-item-caption">
+            <div class="lib-icon" style="background: var(--text-primary); color:#fff;">→</div>
+            Ir a
+          </div>
+          <div class="lib-item-caption">
+            <div class="lib-icon" style="background: var(--accent-color); color:#fff;">✓</div>
+            Confirmar
+          </div>
+          <div class="lib-item-caption">
+            <div class="lib-icon">★</div>
+            Estrella
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Resalta el ítem del menú lateral correspondiente a la sección visible
+    const links = document.querySelectorAll('.lib-nav a');
+    const sections = [...document.querySelectorAll('.lib-section')];
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('is-active'));
+          const active = document.querySelector(`.lib-nav a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+
+</html>

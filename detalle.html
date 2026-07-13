@@ -18,6 +18,38 @@
       .nav .apex-nav-btn {
         display: none !important;
       }
+      .hero-bg-video {
+        background-position: 75% center !important;
+      }
+      .hero-content {
+        padding-top: 75vh !important;
+      }
+      .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      section, .section {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+      }
+      .pi-image-wrapper {
+        margin-left: -24px !important;
+        width: calc(100% + 48px) !important;
+      }
+      #banner-cierre {
+        padding-top: 10rem !important;
+      }
+      .banner-cierre-bg {
+        background-position: 75% center !important;
+      }
+      .hotspot-img {
+        height: auto !important;
+        object-fit: contain !important;
+      }
+      .hotspot-scene {
+        margin-left: -24px !important;
+        width: calc(100% + 48px) !important;
+      }
     }
   </style>
 </head>
@@ -586,7 +618,7 @@
   </section>
 
   <!-- SECCIÓN 6 — BANNER DE CIERRE INTERACTIVO -->
-  <section class="section section-hero" style="
+  <section class="section section-hero" id="banner-cierre" style="
         position:relative;
         min-height:700px;
         display:flex;
@@ -598,7 +630,7 @@
     ">
 
     <!-- Imagen de fondo -->
-    <div style="
+    <div class="banner-cierre-bg" style="
             position:absolute;
             inset:0;
             background-image:url('assets/img_detalle_carpinteria.png');
