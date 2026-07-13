@@ -2257,7 +2257,7 @@ button.btn-primary.btn-large.btn-full:active {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.2);
+
 }
 
 .hero-grain {
@@ -3114,7 +3114,7 @@ button.btn-primary.btn-large.btn-full:active {
    ================================================ */
 .section-galeria {
   padding: var(--space-2xl) 0;
-  background: var(--bg-mid);
+  background: var(--bg--deep);
   overflow: hidden;
 }
 
@@ -3453,7 +3453,7 @@ button.btn-primary.btn-large.btn-full:active {
    ================================================ */
 .section-testimonios {
   padding: var(--space-2xl) 0;
-  background: var(--bg-surface);
+  background: var(--bg-deep);
 }
 
 .test-header {
@@ -6869,13 +6869,14 @@ button.btn-primary.btn-large.btn-full:active {
   .footer-content {
     display: flex !important;
     flex-direction: column !important;
-    gap: 2rem !important; /* Espaciado uniforme para los elementos aplanados */
+    gap: 2rem !important;
+    /* Espaciado uniforme para los elementos aplanados */
   }
 
   .footer-left,
   .footer-right {
     /* 'contents' disuelve el contenedor visualmente para que los hijos pasen a ser ítems directos del .footer-content */
-    display: contents !important; 
+    display: contents !important;
   }
 
   /* Reasignamos el orden visual de arriba hacia abajo */
@@ -6888,7 +6889,8 @@ button.btn-primary.btn-large.btn-full:active {
   }
 
   .footer-form {
-    order: 3 !important; /* Ahora el formulario se inserta justo debajo de footer-desc */
+    order: 3 !important;
+    /* Ahora el formulario se inserta justo debajo de footer-desc */
     width: 100% !important;
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
